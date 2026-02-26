@@ -1,0 +1,118 @@
+---
+description: Google Python Style Guide – language rules, formatting, naming, docstrings, and types
+globs: "**/*.py"
+alwaysApply: true
+---
+
+# Google Python Style Guide
+
+Follow the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html). Summary of requirements:
+
+---
+
+## 1. Lint and formatting
+
+- Run **pylint** on code; fix or explicitly suppress warnings.
+- Prefer **Black** or **Pyink** for formatting.
+- Suppress with line comments: `# pylint: disable=invalid-name` (add a short reason if not obvious).
+- For unused arguments: delete the variable at the start of the function with a comment, e.g. `del beans, eggs  # Unused.`
+
+---
+
+## 2. Imports
+
+- Use `import x` for packages/modules; use `from x import y` where `x` is package prefix and `y` is module name.
+- Use `from x import y as z` when: name collision, too long, or too generic (e.g. `from storage.file_system import options as fs_options`).
+- Use `import y as z` only for standard abbreviations (e.g. `import numpy as np`).
+- **No relative imports** – use full package path.
+- **Order**: `__future__` → standard library → third‑party → same repo; lexicographic within each group. One import per line (exceptions: `typing`, `collections.abc` multiple symbols on one line).
+- Import **modules**, not individual types/classes/functions, except for `typing`, `collections.abc`, `typing_extensions`.
+
+---
+
+## 3. Formatting and layout
+
+- **Line length**: 80 characters (exceptions: long imports, URLs, long string constants, pylint disables). No backslash for line continuation; use parentheses/brackets/braces.
+- **Indentation**: 4 spaces only; no tabs.
+- **Blank lines**: Two between top-level definitions; one between methods and between class docstring and first method.
+- **Whitespace**: No space inside `()[]{}`; space after `,;:`; no space before `(` for calls/indexing; space around `=`, `==`, `and`/`or`/`not`; with type annotations use space around `=` for default values: `def f(x: int = 0)`.
+- **Parentheses**: Use sparingly; no `if (x):` or `return (foo)` unless for line continuation or a 1‑item tuple `(foo,)`.
+- **Semicolons**: Do not use.
+
+---
+
+## 4. Naming
+
+| Kind                 | Public               | Internal              |
+| -------------------- | -------------------- | --------------------- |
+| Packages/Modules     | `lower_with_under`   | `_lower_with_under`   |
+| Classes              | `CapWords`           | `_CapWords`           |
+| Functions/Methods    | `lower_with_under()` | `_lower_with_under()` |
+| Constants            | `CAPS_WITH_UNDER`    | `_CAPS_WITH_UNDER`    |
+| Variables/Parameters | `lower_with_under`   | `_lower_with_under`   |
+
+- **Files**: `.py` only; no dashes in module names.
+- **Avoid**: single letters (except `i`/`j`/`k`/`e` in except/`f` in `with`), `__dunder__` for your own names, names that encode type (e.g. `id_to_name_dict`).
+- Prefer one leading underscore for “internal”; avoid name mangling with `__`.
+
+---
+
+## 5. Docstrings
+
+- Use `"""` for all docstrings (PEP 257).
+- **Modules**: One-line summary (≤80 chars) + blank line + description; include license boilerplate.
+- **Functions/methods**: Required for public API, non-trivial, or non-obvious logic. Use **Args:**, **Returns:** (or **Yields:** for generators), **Raises:** with consistent indent (2 or 4 spaces). Summary line ≤80 chars.
+- **Classes**: Summary of what the instance represents; **Attributes:** for public non-property attributes. Exception classes describe what the exception represents, not when it is raised.
+- **Overridden methods**: Docstring optional if decorated with `@override` unless behavior or contract changes.
+- Be consistent: descriptive vs imperative style within a file.
+
+---
+
+## 6. Language rules
+
+- **Exceptions**: Use built-ins where appropriate (e.g. `ValueError` for bad args). Do not use `assert` for control flow or critical logic; use explicit checks and `raise`. Custom exceptions inherit from existing classes; name ending in `Error`. No bare `except:` or broad `except Exception` unless re-raising or isolating (e.g. top-level thread guard). Minimize code in `try`/`except`; use `finally` for cleanup.
+- **Mutable globals**: Avoid; if needed, prefix with `_` and document. Constants in `CAPS_WITH_UNDER` are fine.
+- **Default arguments**: No mutable defaults (`def f(a, b=[])`). Use `None` and assign inside: `if b is None: b = []`.
+- **Lambdas**: OK for one-liners; prefer `operator` (e.g. `operator.mul`) over trivial lambdas.
+- **Conditional expressions**: OK when each part fits on one line; otherwise use full `if`/`else`.
+- **True/False**: Use implicit truthiness where clear: `if foo:`, `if not seq:`. For `None` always use `if x is None:` or `if x is not None:`. For integers known to be ints, `== 0` is OK. Do not use `== False`; use `if not x:`.
+- **Comprehensions**: Allowed; avoid multiple `for`/filter in one expression if it hurts readability.
+- **Generators**: Use “Yields:” in docstrings; ensure cleanup for expensive resources (e.g. context manager).
+- **Decorators**: Use sparingly; no heavy deps in decorators (run at import). Avoid `staticmethod`; use module-level functions. Use `classmethod` only for named constructors or class-specific global state.
+- **Threading**: Do not rely on atomicity of built-in types; use `queue.Queue` or `threading` with locks/conditions.
+- **Power features**: Avoid metaclasses, reflection, `__del__` for cleanup, import hacks, etc. (stdlib use is OK).
+- **Resources**: Use `with` for files/sockets/DB connections; explicitly close when `with` is not used.
+
+---
+
+## 7. Type annotations
+
+- Use type hints; type-check with pytype or similar.
+- Annotate public APIs and code that is error-prone or hard to understand.
+- Prefer `X | None` over `Optional[X]`; no implicit `str = None` (use `str | None = None`).
+- Use `Self` for `@classmethod` return or methods returning `self`. Do not annotate `self`/`cls` or `__init__` return.
+- Prefer `collections.abc` (e.g. `Sequence`, `Mapping`) over concrete types in signatures; use built-in `list`, `tuple`, `dict` for concrete types.
+- **Line breaking**: One parameter per line when long; return type on its own line; align closing `)` with `def`; comma after last parameter before `)`.
+- **Type aliases**: CapWords; `_Private` for module-private. Use `TypeAlias` on 3.10+.
+- **Generics**: Specify type parameters (e.g. `Sequence[int]`, `Mapping[int, str]`); use `TypeVar`/`ParamSpec` when appropriate; avoid `Any` unless necessary.
+- **Forward refs**: Use `from __future__ import annotations` or string quotes for forward references.
+- **Typing imports**: Import from `typing`/`collections.abc`; use `if TYPE_CHECKING:` only when runtime import must be avoided.
+
+---
+
+## 8. Strings and logging
+
+- Format with f-strings, `%`, or `.format()`; avoid building strings with `+` in loops (use list + `''.join()` or `io.StringIO`).
+- **Logging**: Pass a pattern string as first argument and values as subsequent arguments: `logging.info('Version: %s', version)` – not f-strings for the log message.
+- **Error messages**: Match the real condition; make interpolated parts clear; keep messages greppable.
+
+---
+
+## 9. Other
+
+- **Main**: Put executable logic in `main()`; guard with `if __name__ == '__main__':` (e.g. `app.run(main)` with absl).
+- **TODO**: Format `# TODO: url-or-bug - Short description.` Avoid naming individuals.
+- **Function length**: Prefer short, focused functions; consider splitting if over ~40 lines.
+- **Shebang**: Main executable only: `#!/usr/bin/env python3`.
+
+When editing Python, match existing style in the file first; then apply this guide for new code and fixes.
