@@ -1,0 +1,160 @@
+---
+description: Google Go Style Guide — clarity, simplicity, formatting, and core guidelines for readable Go code
+globs: "**/*.go"
+alwaysApply: false
+---
+
+# Google Go Style Guide
+
+Follow the [Google Go Style Guide](https://google.github.io/styleguide/go/guide). This rule summarizes the **Guide** document (normative principles and core guidelines).
+
+**Companion rules (apply together with this guide):**
+- **Style decisions** (naming, formatting details): `rules/google-go-style-guide/style-decisions.mdc`
+- **Best practices** (errors, testing, concurrency, etc.): `rules/google-go-style-guide/best-practices.mdc`
+
+---
+
+## Style principles (order of importance)
+
+1. **Clarity** — Purpose and rationale clear to the reader  
+2. **Simplicity** — Simplest way that accomplishes the goal  
+3. **Concision** — High signal-to-noise ratio  
+4. **Maintainability** — Easy to change correctly over time  
+5. **Consistency** — Looks and behaves like the rest of the codebase  
+
+Consistency does **not** override the other principles; use it to break ties.
+
+---
+
+## Clarity
+
+- Optimize for the **reader**, not the author. Code should be easy to **read** more than easy to write.
+- Achieve clarity with: **naming**, **commentary**, and **code organization**.
+- Two questions to satisfy:
+  - **What** is the code doing? (refactor, descriptive names, whitespace, comments if needed)
+  - **Why** is it doing it? (especially for language or business-logic nuances)
+- Prefer **why** in comments over **what**; avoid redundant or misleading comments.
+- When code stands out (e.g. unusual pattern), it should signal “needs attention” (e.g. performance); keep the rest of the codebase uniform so that stands out.
+
+---
+
+## Simplicity
+
+- Write the **simplest** code that meets behavior and performance goals.
+- Simple code:
+  - Reads easily top to bottom
+  - Doesn’t assume prior context or memorized details
+  - Avoids unnecessary abstraction and noisy names
+  - Makes control flow and data flow obvious
+  - Has comments that explain **why**, not what
+  - Has self-contained docs and useful errors/test failures
+  - Is usually **not** “clever”
+- Complexity is allowed when justified (performance, multiple clients); then **document** it and add tests/examples.
+- If the goal is simple but the code is very complex, look for a simpler implementation.
+
+### Least mechanism
+
+Prefer the most standard, minimal mechanism:
+
+1. **Core language** (channels, slices, maps, loops, structs) when enough  
+2. **Standard library** (e.g. HTTP client, templates) if needed  
+3. **Project/core libraries** before new dependencies or custom machinery  
+
+- In tests, override flag-bound variables directly when possible instead of `flag.Set` (unless testing the CLI with `os/exec`).
+- For set membership, `map[K]bool` is usually enough; use set libraries only when you need more than that.
+
+---
+
+## Concision
+
+- High signal-to-noise: naming and structure should highlight what matters.
+- Reduce: repetitive code, extra syntax, opaque names, unnecessary abstraction, noisy whitespace.
+- **Table-driven tests** are a good way to factor repetition while keeping important differences visible.
+- Use **common idioms** (e.g. standard error checks) so readers can scan quickly. If you deviate (e.g. `err == nil` instead of `err != nil`), **boost the signal** with a short comment:
+
+```go
+// Good: reader immediately sees this is "if NO error"
+if err := doSomething(); err == nil { // if NO error
+    // ...
+}
+```
+
+---
+
+## Maintainability
+
+- Code is **edited** far more than written; clarity enables safe changes.
+- Maintainable code:
+  - Is easy to modify correctly
+  - Has APIs that can grow without breaking
+  - Makes assumptions explicit and maps abstractions to the **problem**, not to the code shape
+  - Avoids unnecessary coupling and unused features
+  - Has a solid test suite with clear, actionable failures
+- **Interfaces** remove context; use them when the benefit is clear. Document interface contracts and non-obvious usage.
+- **Don’t hide critical details** in easy-to-miss places (e.g. `=` vs `:=`, or a single `!` in a long condition). Prefer explicit steps or a comment.
+
+```go
+// Bad: = vs := is easy to miss
+if user, err = db.UserByID(userID); err != nil { ... }
+
+// Good: explicit and clear
+u, err := db.UserByID(userID)
+if err != nil {
+    return fmt.Errorf("invalid origin user: %s", err)
+}
+user = u
+```
+
+```go
+// Bad: the ! is easy to miss
+leap := (year%4 == 0) && (!(year%100 == 0) || (year%400 == 0))
+
+// Good: named subexpressions + comment
+// Gregorian leap years aren't just year%4 == 0.
+var (
+    leap4   = year%4 == 0
+    leap100 = year%100 == 0
+    leap400 = year%400 == 0
+)
+leap := leap4 && (!leap100 || leap400)
+```
+
+- Use **predictable names**: same concept → same name across params, receivers, and docs. Minimize **dependencies** (fewer packages, no reliance on internal/undocumented behavior).
+
+---
+
+## Consistency
+
+- Code should look and behave like nearby and project code (file, package, team).
+- Same problem → same approach in a package; same concept → consistent naming. Don’t override the guide for “local consistency”; if the guide says otherwise, follow the guide unless it’s a documented exception.
+
+---
+
+## Core guidelines
+
+### Formatting
+
+- All Go source must match **`gofmt`** output. Format generated code too (e.g. `format.Source`).
+
+### MixedCaps (camelCase)
+
+- Use **MixedCaps** for exported and **mixedCaps** for unexported multi-word names. No snake_case.
+- Constants: `MaxLength` (exported), `maxLength` (unexported). Local variables count as unexported for capitalization.
+
+### Line length
+
+- No fixed line length. If a line is too long, **refactor** first. Only then consider wrapping.
+- **Do not** split a line:
+  - Before an indentation change (e.g. function declaration, conditional)
+  - Just to wrap a long string (e.g. URL) across lines
+
+### Naming
+
+- Names: short but clear; consider context; avoid repetition and restating the obvious. See `rules/google-go-style-guide/style-decisions.mdc` for detailed naming guidance.
+
+### Local consistency
+
+- When the guide is silent, match style of **nearby** code (same file/package, sometimes team/project).
+- **Valid** local choices: e.g. `%s` vs `%v` for errors, buffered channels vs mutexes where appropriate.
+- **Invalid** local choices: line length limits, assertion-based test libraries (per guide).
+- New code must not **worsen** existing deviations (spread them, add API surface, or introduce bugs). Fix or refactor in the same change, or find an alternative that doesn’t make the problem worse.

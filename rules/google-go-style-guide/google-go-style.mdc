@@ -1,0 +1,83 @@
+---
+description: Google Go Style (full) — overview, principles, definitions, and core guidelines from the official Go Style index
+globs: "**/*.go"
+alwaysApply: false
+---
+
+# Google Go Style (Overview)
+
+Follow [Go Style at Google](https://google.github.io/styleguide/go/index). This rule implements the **overview** and ties together the three official documents. Apply it together with the companion rules in this folder.
+
+**Official source**: https://google.github.io/styleguide/go/index  
+**References and links**: See `rules/google-go-style-guide/references.md`.
+
+---
+
+## Document structure
+
+| Document | Role | Use when |
+| -------- | ---- | -------- |
+| **Style Guide** | Normative + Canonical. Foundation; definitive. | All Go code. See `guide.mdc`. |
+| **Style Decisions** | Normative, not canonical. Detailed decisions and reasoning. | Naming, commentary, imports, errors, language, tests. See `style-decisions.mdc`. |
+| **Best Practices** | Not normative or canonical. Common patterns. | Naming, errors, docs, tests, APIs, global state. See `best-practices.mdc`. |
+
+**Companion rules in this folder (apply with this rule):**
+- `rules/google-go-style-guide/guide.mdc` — Style principles and core guidelines
+- `rules/google-go-style-guide/style-decisions.mdc` — Naming, commentary, imports, errors, language, tests
+- `rules/google-go-style-guide/best-practices.mdc` — Naming, errors, docs, tests, option structs, global state
+
+---
+
+## Definitions
+
+- **Canonical**: Prescriptive and enduring. All code should follow; not expected to change much. High bar for inclusion.
+- **Normative**: Agreed-upon style for reviewers. May change over time; keeps suggestions and terminology consistent.
+- **Idiomatic**: Common and familiar in Go. Prefer idiomatic patterns when they serve the same purpose as unidiomatic ones.
+
+---
+
+## Style principles (order of importance)
+
+These are attributes of readable Go code, in order. Consistency does **not** override the others; use it to break ties.
+
+1. **Consistency** — Code looks, feels, and behaves like similar code in the file, package, and broader codebase. When the guide is silent, match nearby code.
+2. **Maintainability** — Easy to change correctly; clear assumptions; APIs that can grow; solid tests with actionable failures; minimal unnecessary coupling.
+3. **Concision** — High signal-to-noise. Reduce repetitive code, extra syntax, opaque names, unnecessary abstraction, noisy whitespace. Use common idioms (e.g. standard error checks) so readers can scan quickly.
+4. **Simplicity** — Simplest code that meets behavior and performance goals. Prefer least mechanism: core language → standard library → project libraries → new dependencies. Avoid unnecessary complexity; document and test when complexity is justified.
+5. **Clarity** — Purpose and rationale clear to the **reader**. Optimize for reading, not writing. Achieve via naming, commentary, and organization. Answer *what* and *why*; prefer *why* in comments. Code that stands out should signal “needs attention” (e.g. performance).
+
+---
+
+## Core guidelines (canonical)
+
+- **Formatting**: All Go source must match **`gofmt`** output. Format generated code too.
+- **MixedCaps**: Use **MixedCaps** for exported and **mixedCaps** for unexported multi-word names. No snake_case. Locals count as unexported for capitalization.
+- **Line length**: No fixed limit. Prefer refactoring over wrapping. Do **not** split a line before an indentation change or just to wrap a long string (e.g. URL).
+- **Naming**: Short but clear; consider context; avoid repetition and restating the obvious. See `style-decisions.mdc` and `best-practices.mdc` for details.
+- **Local consistency**: Where the guide is silent, match **nearby** code (same file/package). Do not worsen existing deviations; fix or avoid spreading them.
+
+---
+
+## What these documents do
+
+- Agree on principles for weighing alternate styles  
+- Codify settled Go style  
+- Document canonical examples and idioms  
+- Document pros and cons of style decisions  
+- Minimize surprises in reviews  
+- Keep reviewer terminology and guidance consistent  
+
+They do **not**: replace judgment, list every possible review comment, or justify large-scale churn for style alone. Prefer writing **new** code to the latest guidance and fixing nearby issues over time.
+
+---
+
+## Application
+
+When writing or editing Go (`.go` files):
+
+1. Apply this overview (principles + core guidelines).
+2. Apply `guide.mdc` for clarity, simplicity, concision, maintainability, consistency, and core guidelines in full.
+3. Apply `style-decisions.mdc` for naming, commentary, imports, errors, language, common libraries, and test structure.
+4. Apply `best-practices.mdc` for naming at call sites, errors, docs, variables, function args, tests, strings, and global state.
+
+Assume familiarity with [Effective Go](https://go.dev/doc/effective_go). For official links and extra references, see `references.md` in this folder.

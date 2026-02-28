@@ -1,0 +1,160 @@
+---
+description: Apply Google Go Style Best Practices — naming, errors, docs, tests, APIs, global state
+globs: "**/*.go"
+alwaysApply: false
+---
+
+# Go Style Best Practices (Google)
+
+Apply these when writing or reviewing Go code. Source: [Google Go Style Best Practices](https://google.github.io/styleguide/go/best-practices). This is guidance for common situations; use judgment when alternatives are discussed.
+
+---
+
+## Naming
+
+### Avoid repetition at the call site
+
+- **Package**: Don’t repeat the package name in function names. Prefer `yamlconfig.Parse(input)` over `yamlconfig.ParseYAMLConfig(input)`.
+- **Receiver**: Don’t repeat the receiver type. Prefer `(c *Config).WriteTo(w)` over `WriteConfigTo(w)`.
+- **Parameters**: Don’t repeat parameter names. Prefer `Override(dest, source *Config)` over `OverrideFirstWithSecond(dest, source *Config)`.
+- **Return types**: Don’t repeat return type in the name. Prefer `Transform(input *Config)` over `TransformToJSON(input *Config)`.
+- Add disambiguating info only when needed: e.g. `WriteTextTo` vs `WriteBinaryTo`.
+
+### Function and method naming conventions
+
+- **Returning a value**: Use noun-like names. Avoid `Get` prefix.
+  - Good: `(c *Config).JobName(key string) (value string, ok bool)`
+  - Bad: `(c *Config).GetJobName(key string) (value string, ok bool)`
+- **Doing something**: Use verb-like names, e.g. `(c *Config).WriteDetail(w io.Writer)`.
+- **Type-specific variants**: Include type in name when there are multiple versions: `ParseInt`, `ParseInt64`, `AppendInt`, `AppendInt64`. Omit type for the “primary” version: `Marshal()` vs `MarshalText()`.
+
+### Test double and helper packages
+
+- Name test helper packages by appending `test`: e.g. `creditcardtest` for package `creditcard`.
+- **Single type double**: Use a short name: `Stub` in `creditcardtest` (not `StubService`).
+- **Behavior-specific**: Name by behavior: `AlwaysCharges`, `AlwaysDeclines`.
+- **Multiple types**: Use explicit names: `StubService`, `StubStoredValue`.
+- In tests, when a double is next to production types, prefix variables for clarity: e.g. `spyCC` for a `creditcardtest.Spy`.
+
+### Shadowing vs stomping
+
+- **Stomping** (same variable, `:=` reuses): OK when the original value is no longer needed (e.g. replacing `ctx` with a timeout).
+- **Shadowing** (new variable in inner scope): Can hide bugs. For conditional deadline, use assignment `=` in the outer scope, not `:=` in the `if`, so the capped `ctx` is used after the block.
+- Avoid variable names that shadow standard packages (e.g. `url := "..."` makes `net/url` inaccessible).
+
+### Util packages
+
+- Don’t use vague names like `util`, `helper`, `common`. Name packages by what they provide so the call site is clear: e.g. `spannertest.NewDatabaseFromFile`, `elliptic.Marshal`.
+
+### Package size and layout
+
+- Group related types that interact in the same package. If users routinely need two types together, one package is usually right.
+- Prefer focused packages; split when something is conceptually distinct (e.g. `bytes.Buffer`, `ring.New`).
+- File size: avoid huge single files or many tiny files. Group by theme (e.g. `reader.go` / `writer.go`). Optional: `doc.go` for package docs only.
+
+---
+
+## Imports
+
+- **Proto/GRPC**: Use descriptive renamed imports: `foopb`, `foogrpc` or `pushqueueservicepb`; avoid very short names like `xpb`.
+- **Order**: Follow project/decision doc for import grouping.
+
+---
+
+## Error handling
+
+### Structure
+
+- Use **structured errors** when callers must distinguish cases: sentinel values (`var ErrDuplicate = errors.New("duplicate")`) or types with fields. Use `errors.Is` / `errors.As` for wrapped errors.
+- **Never** distinguish errors by string matching (e.g. regex on `err.Error()`).
+
+### Adding context
+
+- Add **non-redundant** context. Good: `fmt.Errorf("launch codes unavailable: %v", err)` (adds meaning; path stays from `os`). Bad: `fmt.Errorf("could not open settings.txt: %v", err)` (repeats path).
+- Don’t add annotation that only says “it failed”; prefer returning the error as-is over `fmt.Errorf("failed: %v", err)`.
+
+### %v vs %w
+
+- **%v**: For human-facing messages or when callers don’t need to inspect the chain; drops structure. Use for logging, display, or at boundaries (e.g. RPC) when translating to a canonical error space.
+- **%w**: When callers should inspect the chain with `errors.Is`/`errors.As`. Use when adding context inside your app while preserving the underlying error. At RPC/storage boundaries, often translate to status codes instead of wrapping with `%w`.
+- **Placement**: Put `%w` at the **end** of the format string so printed order matches chain order (newest to oldest): `fmt.Errorf("context: %w", err)`.
+
+### Logging errors
+
+- Prefer **not** logging and returning; let the caller log or rate-limit. Avoid duplicate log lines.
+- Be careful with PII in logs. Use `log.Error` sparingly (expensive); prefer actionable error-level messages.
+
+### Program initialization and panics
+
+- Propagate init/config errors to `main`; `main` should call `log.Exit` with an actionable message. Prefer that over `log.Fatal` in helpers.
+- Prefer **returning errors** over panics. Use `log.Fatal` for invariant violations that make state unrecoverable (not panic). Don’t recover panics to hide crashes; fix the bug.
+- **Panic** is acceptable: (1) for API misuse (like in `reflect`), (2) inside a package with a matching `recover` at the API boundary that turns panic into a returned error, (3) after `log.Fatalf` for unreachable code. Never expose panic as part of the public API.
+
+---
+
+## Documentation
+
+- Document **error-prone or non-obvious** parameters and fields (and why they matter), not every parameter.
+- **Context**: Cancellation implying `ctx.Err()` need not be restated. Document when context behavior is special: e.g. returns nil on cancel, or interacts with `Stop()`, or has lifetime/value requirements.
+- **Concurrency**: Read-only operations are assumed safe for concurrent use; mutating ones are not. Document when it’s unclear (e.g. cache that mutates on lookup) or when the API provides synchronization.
+- **Cleanup**: Document caller obligations (e.g. “Call Stop to release resources”, “Close resp.Body when done”).
+- **Errors**: Document important sentinel values or error types and whether they are pointer or value (for `errors.Is`/`errors.As`).
+- Use **runnable examples** and **preview godoc** to validate formatting. Use blank lines between paragraphs; indent code by two spaces for verbatim blocks.
+
+---
+
+## Variable declarations
+
+- Prefer `:=` for new variables with non-zero values. Use `var` for zero value when that’s intentional (e.g. unmarshaling into `var coords Point`, or `new(pb.Bar)` for protos).
+- Use **composite literals** when you have initial elements; avoid noisy empty literals when zero value is enough.
+- **Size hints**: Use `make([]T, 0, n)` or `make(map[K]V, n)` when size is known and it matters; don’t over-preallocate.
+- **Channels**: Specify direction when possible: `func sum(values <-chan int)` to prevent misuse (e.g. closing a receive-only channel).
+
+---
+
+## Function argument lists
+
+- Keep signatures short. For many arguments, use an **option struct** (self-documenting, optional fields, stable over time) or **variadic options** (no space when unused, good for many optional settings).
+- **Option struct**: Pass as last argument; don’t put `context.Context` in the struct. Good when callers often set several options.
+- **Variadic options**: Functions that take a mutable config and return a closure. Prefer when most callers use defaults; options can take arguments (e.g. `ReplicateExisting(bool)`). Process in order; last wins for conflicts.
+- Prefer **option struct** when many callers need to specify options; **variadic options** when most callers need none and options are numerous or need docs.
+
+---
+
+## Tests
+
+- **Assert in the test**: Fail in the `Test` function; avoid assertion helpers that take `*testing.T` and fail internally. Use inline checks, table-driven tests with in-loop checks, or validation helpers that **return** an error (or a diff); the test decides whether to fail and with what message.
+- **Test helpers** (setup/teardown): Use `t.Helper()` so failures point to the call site. On setup failure, `t.Fatal` is appropriate; include what failed and why.
+- **t.Error vs t.Fatal**: Use `t.Fatal` for setup that applies to the whole test (or whole table). For a single table entry, use `t.Error` + `continue`, or `t.Fatal` inside a `t.Run` subtest.
+- **No t.Fatal from goroutines**: Only the test goroutine may call `t.Fatal`/`t.FailNow`. From other goroutines, use `t.Error` and return.
+- **Table-driven tests**: Use **field names** in struct literals for test cases (clearer and allows omitting zero values).
+- **Setup scope**: Prefer setup (e.g. `mustLoadDataset(t)`) only in tests that need it; avoid package-level init that runs for every test. Use `sync.Once` for expensive, shared, teardown-free setup; use `TestMain` only when shared setup **and** teardown are required.
+- **Acceptance tests**: Provide a validation function that takes the implementation and returns an error (e.g. `chesstest.ExercisePlayer`). Prefer fail-fast or aggregated errors; don’t use this to bypass “no assertion helpers” guidance.
+- **Integration**: Prefer **real transports** (real client against a test server/double) over hand-rolled client mocks.
+
+---
+
+## String concatenation
+
+- **Simple**: Use `+`.
+- **Formatted**: Use `fmt.Sprintf`; if the target is an `io.Writer`, use `fmt.Fprintf(w, ...)` instead of building a string then writing.
+- **Piecemeal**: Use `strings.Builder` to avoid quadratic concatenation.
+- **Constant multi-line**: Use backticks.
+
+---
+
+## Global state
+
+- **Avoid** package-level state that controls behavior for all clients (registries, default clients, callback lists). Prefer **instance-based APIs**: construct a type (e.g. `*Registry`), pass it explicitly as a dependency.
+- **Problems with globals**: Test ordering, inability to isolate or replace with test doubles, unclear lifecycle and concurrency.
+- If you must offer a convenience API using globals: (1) provide an instance-based API as primary, (2) make the global API a thin wrapper (e.g. `http.Handle` → `DefaultServeMux`), (3) document when and how the global may be used and how to reset it for tests. **Libraries** should not rely on package-level state of dependencies.
+- **Safe globals**: Logically constant, or stateless (e.g. cache where callers can’t tell hits from misses), or no observable effect outside the process; no test-double replacement or ordering requirements.
+
+---
+
+## CLI and options
+
+- For subcommands, **subcommands** is recommended when possible; **cobra** is common externally. With cobra, use `cmd.Context()` for context, not `context.Background()`.
+- Prefer separating CLI code from library code so the binary is one consumer of the library.
+
+Apply these practices to keep Go code consistent, testable, and maintainable. When in doubt, prefer clarity and explicit dependencies over convenience and global state.

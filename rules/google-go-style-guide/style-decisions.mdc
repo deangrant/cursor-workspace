@@ -1,0 +1,163 @@
+---
+description: Apply Google Go Style Decisions — naming, commentary, imports, errors, language, tests (normative)
+globs: "**/*.go"
+alwaysApply: false
+---
+
+# Go Style Decisions (Google)
+
+Normative style decisions for Go at Google. Source: [Google Go Style Decisions](https://google.github.io/styleguide/go/decisions). When the core style guide conflicts with this document, the style guide takes precedence.
+
+---
+
+## Naming
+
+### Underscores
+
+- **No underscores** in Go names except: (1) package names imported only by generated code, (2) test/benchmark/example function names in `*_test.go`, (3) low-level OS/cgo interop (rare).
+- **Filenames** may contain underscores; they are not Go identifiers.
+
+### Package names
+
+- **Lowercase only**, no underscores: e.g. `k8s`, `oauth2`, `tabwriter` (not `tab_writer`).
+- Avoid names that shadow common locals (e.g. `usercount` better than `count`).
+- **Rename at import** if a dependency has underscores (e.g. protos): local name must follow Go naming (no underscores).
+- Avoid uninformative names: `util`, `utility`, `common`, `helper`, `model`, `testhelper`. Prefer names that describe what the package provides.
+
+### Receiver names
+
+- **Short** (one or two letters), **abbreviation of the type**, **consistent** for that type.
+- Prefer: `(t Tray)`, `(ri *ResearchInfo)`, `(w *ReportWriter)`, `(s *Scanner)` — not `(tray Tray)`, `(this ...)`, `(self ...)`.
+
+### Constant names
+
+- Use **MixedCaps** (exported: uppercase start; unexported: lowercase). No `MAX_PACKET_SIZE`, no `k` prefix.
+- Name by **role**, not value. Bad: `const Twelve = 12`, column names that just repeat the value.
+
+### Initialisms
+
+- Same case within an initialism: `URL` or `url`, never `Url`. Exported: `XMLAPI`, `ID`, `DB`, `Txn`. Unexported: `xmlAPI`, `id`, `db`.
+- Preserve odd casing when standard: `iOS` (exported `IOS`), `gRPC` (exported `GRPC`), `DDoS` (exported `DDoS`, unexported `ddos`).
+
+### Getters
+
+- **No `Get`/`get` prefix** unless the concept is “get” (e.g. HTTP GET). Use noun: `Counts` not `GetCounts`. For heavy work use `Compute`, `Fetch`, etc.
+
+### Variable names
+
+- Length proportional to **scope** and inverse to **use**: small scope → short names; file scope → more descriptive.
+- Prefer **what it contains / how it’s used**, not where it came from. Omit type words when obvious: `userCount` not `numUsers`; `users` not `userSlice`. Use type qualifiers only when two forms exist (e.g. `ageString` vs `age`).
+- **Single-letter**: OK for receivers, `r`/`w` for Reader/Writer/Request/ResponseWriter, loop indices (`i`), short scope. Don’t abbreviate by dropping letters (e.g. prefer `Sandbox` over `Sbx` for exported names).
+
+### Repetition
+
+- **Package vs symbol**: Don’t repeat package in exported names. Prefer `widget.New`, `db.Load`; constructor for single type: `New`.
+- **Variable vs type**: Omit type in name unless two values of same type in scope; use `raw`/`parsed` or representation name when needed.
+- **Context**: Omit names that repeat package, type, method, or filename context (e.g. in package `reporting`, use `Report` and `Name()`, not `AdsTargetingRevenueReport` and `ProjectName()`).
+
+---
+
+## Commentary
+
+- **Line length**: Prefer readable on ~80 columns; wrap into multiple single-line comments. No fixed limit; break on punctuation when it helps.
+- **Doc comments**: All **top-level exported** names must have doc comments; full sentences starting with the name (article OK). Unexported names with non-obvious behavior should also be documented. Comment applies to the following symbol or struct field group.
+- **Sentences**: Complete sentences → capitalize and punctuate. Fragments (e.g. field comments) need not. Doc comments should be full sentences.
+- **Package comment**: One per package, immediately above `package` with no blank line. For `main`, use the binary name (e.g. “The seed_generator command …”). Can use multiline `/* */` for copy-pasteable examples.
+- **Examples**: Prefer runnable examples (in test files); they appear in godoc. Otherwise put example code in comments, formatted like normal code.
+
+### Named result parameters
+
+- Use when they **clarify** (e.g. same type multiple returns, or caller must take action like calling a cancel func). Don’t use to avoid declaring a variable or to enable naked returns in anything but small functions. Prefer clarity over brevity.
+
+---
+
+## Imports
+
+- **Renaming**: Only when needed (collision, or proto with underscores). Proto imports: rename to remove underscores, local name with `pb` suffix (e.g. `foopb`). Same import → same local name across files. Prefer renaming the most local/project-specific import on collision.
+- **Grouping** (in order): (1) standard library, (2) other project/vendored, (3) protobuf, (4) side-effect imports (`_ "pkg"`).
+- **Blank import** (`_ "pkg"`): Only in `main` or tests that need it. Avoid in library packages. Exceptions: nogo bypass, `//go:embed` with `embed`.
+- **No dot import** (`. "foo"`): Don’t use; keep qualification so origin is clear.
+
+---
+
+## Errors
+
+- **Return `error`** as the last result. Success = `nil` error. Callers must not rely on other return values when error is non-nil unless documented. Exported APIs use `error`, not concrete error types (avoids `nil` interface bugs).
+- **Error strings**: Lowercase, no trailing punctuation (they’re often wrapped). Capitalize only for exported names, proper nouns, acronyms. Log/UI messages can be capitalized.
+- **Handle errors**: Don’t discard with `_` unless documented (e.g. `(*bytes.Buffer).Write`). Handle, return, or in rare cases `log.Fatal`/`panic`. Comment when ignoring.
+- **No in-band errors**: Prefer `(value T, ok bool)` or `(value T, err error)` over sentinel values (-1, nil, "") so callers can’t misuse. Reserve in-band for rare cases (e.g. some `strings` APIs).
+- **Indent error flow**: Handle error first, then normal path; avoid `else` for the normal path. Prefer early return.
+
+---
+
+## Language
+
+### Literal formatting
+
+- **Struct literals from other packages**: Always use **field names**. Package-local types: field names optional but use for clarity or many fields.
+- **Braces**: Closing brace same indentation as opening; multi-line literals end with comma then closing brace on next line. No “trailing” closing brace on same line as last value.
+- **Cuddled braces** `}}{{`: Only when indentation matches and inner values are literals or proto builders, not variables.
+- **Omit repeated types** in slice/map literals when obvious; use `gofmt -s` for struct literals.
+- **Zero-value fields**: Omit when clarity isn’t lost. In table-driven tests, omit zero-valued fields when not relevant to the case.
+
+### Nil slices
+
+- Prefer `var s []T` over `s := []T{}` for locals that may be returned. Don’t design APIs that distinguish nil vs empty slice; use `len(s) == 0` for “empty”.
+
+### Formatting and line breaks
+
+- **Indentation confusion**: Avoid line breaks that make the next line align with an indented block; if unavoidable, add a space. Keep function signatures on one line when possible; shorten via locals or option structs. Don’t break calls solely for line length.
+- **Conditionals/loops**: Don’t break `if`/`for`/`switch` in a way that aligns condition with body. Extract booleans or locals. Variable on left of comparison: `if result == "foo"`. `switch`/`case` on one line; if very long, indent cases and separate with blank line.
+
+### Copying
+
+- Don’t copy types that must not be copied (e.g. `sync.Mutex`, `bytes.Buffer`, or structs with such fields). Prefer pointer receivers and pointer params for such types.
+
+### Control flow and APIs
+
+- **Don’t panic** for normal errors; use `error` and multiple returns. In `main`/init, consider `log.Exit` for config errors. `panic` only for “impossible” bugs.
+- **Must functions**: Name `MustXYZ` (or `mustXYZ`); use for init/package-level setup or test helpers that call `t.Fatal`. Not for user input or where normal error handling is possible.
+- **Goroutine lifetimes**: Make when/whether goroutines exit clear. Avoid leaking (blocking on channels). Use `context.Context`, `sync.WaitGroup`, or explicit signalling; document when goroutines stop.
+- **Interfaces**: Put in the **consumer** package, not the producer. Producers return concrete types. Don’t export test doubles; test via real API or minimal interface. Don’t define interfaces before use (YAGNI).
+- **Generics**: Use when they fulfill requirements; avoid premature use. Don’t use for single-type algorithms, DSLs, or assertion/error frameworks. Prefer interfaces when they suffice.
+- **Pass values**: Don’t pass pointers just to save a few bytes. Pass pointers for large structs, protos, or when mutation is needed.
+- **Receiver type**: Value vs pointer by correctness and method set: must use pointer if mutating, if containing sync types, or if “large”; value for small, immutable, or built-in. When in doubt, pointer. Prefer all pointer or all value methods per type.
+- **switch/break**: Don’t use redundant `break` at end of cases. Use labeled `break` to exit enclosing `for` from inside `switch`.
+- **Synchronous functions**: Prefer sync APIs; caller can add concurrency. Avoid async-by-default.
+- **Type aliases**: Use `type T1 = T2` only when referring to existing type (e.g. migration). Prefer type definition `type T1 T2` for new types.
+- **Formatting**: Use `%q` for strings in format output when empty or control chars matter. Prefer `any` over `interface{}` in new code.
+
+---
+
+## Common libraries
+
+- **Flags**: Define only in `main`. Flag names: snake_case; variables: MixedCaps. Libraries use Go APIs (params, struct fields), not flags.
+- **Logging**: Use project’s log package. `log.Fatal` for abort with stack; `log.Exit` without. Prefer non-formatting variants when no formatting needed.
+- **Context**: First parameter: `func F(ctx context.Context, ...)`. Don’t store context in structs; pass as argument. Use `context.Background()` (or `tb.Context()` in tests) only in entrypoints (main, init, TestXXX). No custom context types.
+- **crypto/rand**: Use for keys and any secret; not `math/rand` (predictable).
+
+---
+
+## Useful test failures
+
+- **No assertion libraries**: Use Go and `testing`; use `cmp` for equality/diffs. Failure messages should allow diagnosis without reading test source.
+- **Identify**: Include function name and inputs in failure message (e.g. `YourFunc(%v) = %v, want %v`). **Got before want**. For big output, use diffs and state direction (e.g. `(-want +got)`).
+- **Full structure**: Prefer building expected value and `cmp.Equal`/`cmp.Diff` over hand-written field checks. For protos use `protocmp.Transform()`. Don’t compare unstable output (e.g. raw JSON bytes); compare semantic data.
+- **Keep going**: Prefer `t.Error` over `t.Fatal` for multiple checks so all failures show in one run; use `t.Fatal` when later checks are meaningless.
+- **Error semantics**: Don’t rely on error string text for control flow; use `errors.Is`/`cmp` with `cmpopts.EquateErrors`. Test semantic meaning, not wording.
+
+---
+
+## Test structure
+
+- **Subtests**: Use for table-driven tests, setup/teardown, parallelism. Names: readable, no slashes (filter issues). Don’t depend on other subtests’ execution or state.
+- **Table-driven**: One table when logic is the same; identify row by name/inputs in failure message, not by index. Avoid conditional logic per row that obscures which code path runs.
+- **Test helpers**: Pass `*testing.T` (after ctx if present); call `t.Helper()` so failures report at call site. Don’t build assertion libraries.
+- **Package**: Same package (`package foo`) for white-box; `package foo_test` for black-box or to break import cycles.
+- **Framework**: Use only standard `testing` package; no assertion libraries or third-party test frameworks.
+
+---
+
+## Non-decisions
+
+No prescribed style for: `var i int` vs `i := 0`; `&File{}` vs `new(File)`; `got`/`want` order in `cmp.Diff`; `errors.New("foo")` vs `fmt.Errorf("foo")`. Be consistent locally.
