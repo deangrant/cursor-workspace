@@ -16,6 +16,7 @@ Each subfolder is a self-contained skill with:
 | ----- | ----------- |
 | [h3-hexagonal-hierarchical-spatial-index](./h3-hexagonal-hierarchical-spatial-index/) | Uber's H3 hexagonal hierarchical spatial index: hexagonal grids, location bucketing, geo-indexing, k-ring neighbors, compact/uncompact, directed edges. |
 | [howde-algorithm](./howde-algorithm/) | HoWDe (Home and Work location Detection): detect home/work from stop sequences in Python or Rust, parameter tuning, mobility preprocessing. |
+| [polars-rust](./polars-rust/) | Polars (Rust) performance best practices: lazy API, expression-based queries, Cargo features, allocators, tuning for production. |
 
 ## How to use
 
