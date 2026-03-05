@@ -13,6 +13,7 @@ Each markdown file is a self-contained command:
 | Command | Description |
 | ------- | ----------- |
 | [code-review-diff](./code-review-diff.md) | Run `git status` and `git diff`, then perform a read-only code review: describe correctness, security, performance, readability, testing gaps, and best-practice issues without modifying or suggesting code changes. |
+| [git-conventional-commit](./git-conventional-commit.md) | Run `git status` and `git diff`, then produce a single Conventional Commits 1.0.0–compliant commit message; the agent must not run `git commit` or apply the commit. |
 
 ## How to use
 
