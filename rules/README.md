@@ -1,12 +1,14 @@
 # Cursor Rules
 
-A collection of reusable [Cursor](https://cursor.com) rules for consistent AI-assisted coding across projects.
+A collection of reusable [Cursor](https://cursor.com) rules for consistent
+AI-assisted coding across projects.
 
 ## What’s in this repo
 
 Each subfolder is a self-contained rule pack with:
 
-- **Rule file (`.mdc`)** – the rule Cursor uses (formatting, style, conventions). Copy into `.cursor/rules/` in your project.
+- **Rule file (`.mdc`)** – the rule Cursor uses (formatting, style,
+  conventions). Copy into `.cursor/rules/` in your project.
 - **`README.md`** – what the rule does and when it applies.
 
 ## Available rules
@@ -19,13 +21,19 @@ Each subfolder is a self-contained rule pack with:
 | [rust-style-guide](./rust-style-guide/)                      | Rust code style: 100-char lines, 500-line files, rustfmt alignment, comments, docs, naming, and alignment with official Rust and API guidelines.                             |
 | [wide-event-logging](./wide-event-logging/)                  | Wide event / canonical log line logging: one structured event per request per service, high cardinality/dimensionality, tail sampling. Framework-agnostic; reference [loggingsucks.com](https://loggingsucks.com/). |
 | [typescript-docstrings](./typescript-docstrings/)            | TypeScript/JSDoc inline documentation: complete JSDoc and inline comments for public APIs, classes, and complex logic; “why not what”; TypeDoc-friendly. |
+| [ultracite-lint-format](./ultracite-lint-format/)          | Ultracite/Biome-oriented JS/TS/TSX/JSX: lint and format alignment, `npx ultracite` workflows, and principles (types, React, async, security, testing) alongside Biome autofixes. |
 
 ## How to use
 
-- **In a project**: Copy the rule folder into your repo (e.g. `.cursor/rules/` or a `rules/` directory) and reference or enable it in Cursor.
-- **As reference**: Clone or link this repo and point Cursor (or your rule config) at the `.mdc` rule file you want.
-- **Per rule**: See the rule’s own `README.md` for scope (e.g. file globs) and details.
+- **In a project**: Copy the rule folder into your repo (e.g. `.cursor/rules/`
+  or a `rules/` directory) and reference or enable it in Cursor.
+- **As reference**: Clone or link this repo and point Cursor (or your rule
+  config) at the `.mdc` rule file you want.
+- **Per rule**: See the rule’s own `README.md` for scope (e.g. file globs) and
+  details.
 
 ## Adding rules
 
-Add new rule packs as top-level folders: put a rule file (`.mdc`) and an optional `README.md` in each folder, then add an entry to the **Available rules** table above.
+Add new rule packs as top-level folders: put a rule file (`.mdc`) and an
+optional `README.md` in each folder, then add an entry to the **Available
+rules** table above.
