@@ -1,8 +1,8 @@
 # Cursor Commands
 
-A collection of reusable [Cursor](https://cursor.com) command prompts and workflows you can invoke from chat or as custom commands.
+A collection of reusable [Cursor](https://cursor.com) command prompts and workflows you can invoke from chat or as custom commands. In this workspace they live under `.agents/commands/`.
 
-## What’s in this repo
+## What’s in this directory
 
 Each markdown file is a self-contained command:
 
@@ -21,8 +21,8 @@ Each markdown file is a self-contained command:
 
 - **In chat**: Reference the file (e.g. @-mention the command file or paste its contents) so the agent follows the instructions.
 - **As a custom command**: Configure Cursor to use the command file as a custom command; the agent will run the workflow when you invoke it.
-- **As reference**: Clone or link this repo and open a command’s `.md` file to see the full prompt and scope.
+- **As reference**: Open a command’s `.md` file under `.agents/commands/` to see the full prompt and scope.
 
 ## Adding commands
 
-Add new commands as `.md` files in this directory (one file per command), then add an entry to the **Available commands** table above.
+Add new commands as `.md` files under `.agents/commands/` (one file per command), then add an entry to the **Available commands** table above.

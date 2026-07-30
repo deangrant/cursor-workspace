@@ -1,9 +1,11 @@
 # Cursor Skills
 
 A collection of reusable [Cursor](https://cursor.com) agent skills for domain
-knowledge and specialized guidance.
+knowledge and specialized guidance. Canonical location in this workspace:
+`.agents/skills/`. Cursor discovers them via `.cursor/skills` →
+`.agents/skills`.
 
-## What’s in this repo
+## What’s in this directory
 
 Each subfolder is a self-contained skill with:
 
@@ -26,16 +28,16 @@ Each subfolder is a self-contained skill with:
 
 ## How to use
 
-- **In Cursor**: Place skill folders where Cursor can see them (e.g.
-  `.cursor/skills/` or a linked `skills/` directory). The agent uses `SKILL.md`
-  when the description matches the user’s task.
-- **As reference**: Clone or link this repo and open a skill’s `README.md` or
-  `reference.md` for scope and details.
+- **In this workspace**: Skills live under `.agents/skills/` and are linked at
+  `.cursor/skills`. The agent uses `SKILL.md` when the description matches the
+  user’s task.
+- **As reference**: Open a skill’s `README.md` or `reference.md` for scope and
+  details.
 - **Per skill**: See each skill’s `README.md` for when it applies and what it
   covers.
 
 ## Adding skills
 
-Add new skills as top-level folders: put a `SKILL.md` (with frontmatter `name`
-and `description`) and an optional `README.md` in each folder, then add an entry
-to the **Available skills** table above.
+Add new skills as subfolders under `.agents/skills/`: put a `SKILL.md` (with
+frontmatter `name` and `description`) and an optional `README.md` in each
+folder, then add an entry to the **Available skills** table above.

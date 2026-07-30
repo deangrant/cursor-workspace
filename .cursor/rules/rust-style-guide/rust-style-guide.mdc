@@ -79,9 +79,7 @@ Follow rustfmt defaults with these overrides:
 ## References
 
 - **Documentation (dedicated rule)**: See **rust-documentation.mdc** in this folder for API doc and module-doc rules aligned with [Microsoft Documentation](https://microsoft.github.io/rust-guidelines/guidelines/docs/).
-- **Full style references**: See **references.md** in this folder:
-
-`.cursor/rules/rust-style-guide/references.md`
+- **Full style references**: See **reference.md** in this folder.
 
 ## Enforcement
 

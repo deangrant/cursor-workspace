@@ -9,7 +9,7 @@ alwaysApply: false
 Follow [Go Style at Google](https://google.github.io/styleguide/go/index). This rule implements the **overview** and ties together the three official documents. Apply it together with the companion rules in this folder.
 
 **Official source**: https://google.github.io/styleguide/go/index  
-**References and links**: See `rules/google-go-style-guide/references.md`.
+**References and links**: See `references.md`.
 
 ---
 
@@ -22,9 +22,9 @@ Follow [Go Style at Google](https://google.github.io/styleguide/go/index). This 
 | **Best Practices** | Not normative or canonical. Common patterns. | Naming, errors, docs, tests, APIs, global state. See `best-practices.mdc`. |
 
 **Companion rules in this folder (apply with this rule):**
-- `rules/google-go-style-guide/guide.mdc` — Style principles and core guidelines
-- `rules/google-go-style-guide/style-decisions.mdc` — Naming, commentary, imports, errors, language, tests
-- `rules/google-go-style-guide/best-practices.mdc` — Naming, errors, docs, tests, option structs, global state
+- `guide.mdc` — Style principles and core guidelines
+- `style-decisions.mdc` — Naming, commentary, imports, errors, language, tests
+- `best-practices.mdc` — Naming, errors, docs, tests, option structs, global state
 
 ---
 

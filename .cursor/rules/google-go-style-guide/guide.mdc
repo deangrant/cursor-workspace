@@ -9,8 +9,8 @@ alwaysApply: false
 Follow the [Google Go Style Guide](https://google.github.io/styleguide/go/guide). This rule summarizes the **Guide** document (normative principles and core guidelines).
 
 **Companion rules (apply together with this guide):**
-- **Style decisions** (naming, formatting details): `rules/google-go-style-guide/style-decisions.mdc`
-- **Best practices** (errors, testing, concurrency, etc.): `rules/google-go-style-guide/best-practices.mdc`
+- **Style decisions** (naming, formatting details): `style-decisions.mdc`
+- **Best practices** (errors, testing, concurrency, etc.): `best-practices.mdc`
 
 ---
 
@@ -150,7 +150,7 @@ leap := leap4 && (!leap100 || leap400)
 
 ### Naming
 
-- Names: short but clear; consider context; avoid repetition and restating the obvious. See `rules/google-go-style-guide/style-decisions.mdc` for detailed naming guidance.
+- Names: short but clear; consider context; avoid repetition and restating the obvious. See `style-decisions.mdc` for detailed naming guidance.
 
 ### Local consistency
 

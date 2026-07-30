@@ -1,14 +1,15 @@
 # Cursor Rules
 
 A collection of reusable [Cursor](https://cursor.com) rules for consistent
-AI-assisted coding across projects.
+AI-assisted coding across projects. In this workspace they live under
+`.cursor/rules/`.
 
-## What’s in this repo
+## What’s in this directory
 
 Each subfolder is a self-contained rule pack with:
 
 - **Rule file (`.mdc`)** – the rule Cursor uses (formatting, style,
-  conventions). Copy into `.cursor/rules/` in your project.
+  conventions).
 - **`README.md`** – what the rule does and when it applies.
 
 ## Available rules
@@ -25,15 +26,16 @@ Each subfolder is a self-contained rule pack with:
 
 ## How to use
 
-- **In a project**: Copy the rule folder into your repo (e.g. `.cursor/rules/`
-  or a `rules/` directory) and reference or enable it in Cursor.
-- **As reference**: Clone or link this repo and point Cursor (or your rule
-  config) at the `.mdc` rule file you want.
+- **In this workspace**: Packs already live under `.cursor/rules/`; enable the
+  `.mdc` rule(s) you need in Cursor.
+- **In another project**: Copy the rule folder into that project’s
+  `.cursor/rules/` and enable it in Cursor.
+- **As reference**: Open a pack’s `README.md` or `.mdc` for scope and details.
 - **Per rule**: See the rule’s own `README.md` for scope (e.g. file globs) and
   details.
 
 ## Adding rules
 
-Add new rule packs as top-level folders: put a rule file (`.mdc`) and an
-optional `README.md` in each folder, then add an entry to the **Available
-rules** table above.
+Add new rule packs as subfolders under `.cursor/rules/`: put a rule file
+(`.mdc`) and an optional `README.md` in each folder, then add an entry to the
+**Available rules** table above.
