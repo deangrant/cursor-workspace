@@ -25,6 +25,7 @@ Each subfolder is a self-contained skill with:
 | [howde-algorithm](./howde-algorithm/) | HoWDe (Home and Work location Detection): detect home/work from stop sequences in Python or Rust, parameter tuning, mobility preprocessing. |
 | [polars-rust](./polars-rust/) | Polars (Rust) performance best practices: lazy API, expression-based queries, Cargo features, allocators, tuning for production. |
 | [solid-rust](./solid-rust/) | SOLID design principles in Rust: traits as interfaces, SRP/OCP/LSP/ISP/DIP, module boundaries, generics vs `dyn Trait`, dependency injection, refactoring for testability. |
+| [typescript-project-structure](./typescript-project-structure/) | React + TypeScript project structure with atomic design: atoms, molecules, organisms, templates, folder-per-component (CSS Modules), pages, hooks, contexts, services, stores, barrel exports, naming rules. |
 
 ## How to use
 
