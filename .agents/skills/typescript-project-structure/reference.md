@@ -7,7 +7,7 @@ rules. See [examples.md](examples.md) for code.
 
 ## Full `src/` tree
 
-```
+```text
 src/
 ├── assets/
 │   ├── images/
@@ -26,7 +26,7 @@ src/
 │       ├── index.ts
 │       └── notification.mp3
 ├── components/
-│   ├── atoms/
+│   ├── core/
 │   │   ├── Button/
 │   │   │   ├── index.tsx
 │   │   │   ├── index.module.css
@@ -36,7 +36,7 @@ src/
 │   │   │   ├── index.module.css
 │   │   │   └── index.types.ts
 │   │   └── index.ts
-│   ├── molecules/
+│   ├── patterns/
 │   │   ├── Card/
 │   │   │   ├── index.tsx
 │   │   │   ├── index.module.css
@@ -46,7 +46,7 @@ src/
 │   │   │   ├── index.module.css
 │   │   │   └── index.types.ts
 │   │   └── index.ts
-│   ├── organisms/
+│   ├── containers/
 │   │   ├── Header/
 │   │   │   ├── index.tsx
 │   │   │   ├── index.module.css
@@ -56,7 +56,7 @@ src/
 │   │   │   ├── index.module.css
 │   │   │   └── index.types.ts
 │   │   └── index.ts
-│   └── templates/
+│   └── layouts/
 │       ├── MainLayout/
 │       │   ├── index.tsx
 │       │   ├── index.module.css
@@ -156,7 +156,7 @@ src/
 | Folder | Put here | Do not put here |
 | ------ | -------- | --------------- |
 | `assets/` | Images, icons, fonts, audio, static JSON. | Component logic or styles. |
-| `components/` | Shared UI by atom, molecule, organism, template. | Page-only UI used once. |
+| `components/` | Shared UI by core, pattern, container, layout. | Page-only UI used once. |
 | `constants/` | Route paths, API paths, theme tokens, fixed messages. | Runtime state or API calls. |
 | `pages/` | Route page roots and page-local components. | Shared UI used by many pages. |
 | `contexts/` | Context providers and context types. | Low-level fetch helpers. |
@@ -171,14 +171,14 @@ src/
 
 ---
 
-## Atomic level decision
+## Layer decision
 
 | Signal | Level | Action |
 | ------ | ----- | ------ |
-| Single control. No composed children. | Atom | Put under `components/atoms/`. |
-| Small group of atoms. One job. | Molecule | Put under `components/molecules/`. |
-| Large block. Uses atoms and molecules. | Organism | Put under `components/organisms/`. |
-| Layout shell for a page family. | Template | Put under `components/templates/`. |
+| Single control. No composed children. | Core | Put under `components/core/`. |
+| Small group of core units. One job. | Pattern | Put under `components/patterns/`. |
+| Large block. Uses core and patterns. | Container | Put under `components/containers/`. |
+| Layout shell for a page family. | Layout | Put under `components/layouts/`. |
 | Used by only one page. | Page-local | Put under `pages/<Page>/components/`. |
 | Used by two or more pages. | Shared | Put under `components/` at the right level. |
 
@@ -192,7 +192,7 @@ src/
 | Component entry | `index.tsx` | `Button/index.tsx` |
 | Component styles | `index.module.css` | `Button/index.module.css` |
 | Component types | `index.types.ts` | `Button/index.types.ts` |
-| Layer barrel | `index.ts` | `atoms/index.ts` |
+| Layer barrel | `index.ts` | `core/index.ts` |
 | Hook | `use` + Name | `useAuth.ts` |
 | Constants | `*.constants.ts` | `api.constants.ts` |
 | Shared types | `*.types.ts` | `common.types.ts` |

@@ -1,45 +1,46 @@
 ---
 name: typescript-project-structure
 description: >-
-  Organize React + TypeScript projects with atomic design. Use when creating or
-  reviewing a React TypeScript folder layout, placing components in atoms,
-  molecules, organisms, or templates, applying folder-per-component with CSS
-  Modules, or deciding where pages, hooks, contexts, services, stores, routes,
-  types, constants, utils, styles, assets, or i18n files belong.
+  Organize React + TypeScript projects with role-based component layers. Use
+  when creating or reviewing a React TypeScript folder layout, placing
+  components in core, patterns, containers, or layouts, applying
+  folder-per-component with CSS Modules, or deciding where pages, hooks,
+  contexts, services, stores, routes, types, constants, utils, styles, assets,
+  or i18n files belong.
 trigger: >-
-  React TypeScript project structure, atomic design, atoms, molecules,
-  organisms, templates, folder-per-component, CSS Modules, React folder layout,
+  React TypeScript project structure, component layers, core, patterns,
+  containers, layouts, folder-per-component, CSS Modules, React folder layout,
   pages, hooks, contexts, services, stores, barrel export, component hierarchy
 ---
 
 # TypeScript Project Structure (React)
 
-Use this skill when you shape a **React + TypeScript** app. Atomic design
-groups UI into layers. A clear folder tree keeps shared code apart from page
-code.
+Use this skill when you shape a **React + TypeScript** app. Role-based layers
+group UI by reuse and composition. A clear folder tree keeps shared code apart
+from page code.
 
 Do not use this full layout for a tiny prototype. Use it when the app grows and
 many people share the code.
 
 ---
 
-## 1. Atomic design layers
+## 1. Role-based component layers
 
-Atomic design has four UI layers in this skill:
+This skill uses four UI layers:
 
 | Layer | Role | Examples |
 | ----- | ---- | -------- |
-| **Atom** | Smallest UI unit. No business logic. | `Button`, `Input`, `Label` |
-| **Molecule** | Small group of atoms. One clear job. | `FormField`, `Card` |
-| **Organism** | Large UI block. Uses atoms and molecules. | `Header`, `UserProfile` |
-| **Template** | Page skeleton. Holds organisms in layout slots. | `MainLayout`, `AuthLayout` |
+| **Core** | Smallest UI unit. No business logic. | `Button`, `Input`, `Label` |
+| **Pattern** | Small group of core units. One clear job. | `FormField`, `Card` |
+| **Container** | Large UI block. Uses core and patterns. | `Header`, `UserProfile` |
+| **Layout** | Page skeleton. Holds containers in layout slots. | `MainLayout`, `AuthLayout` |
 
 **Put each component in the correct layer.**
 
-- Put a leaf UI control in `components/atoms/`.
-- Put a small composed control in `components/molecules/`.
-- Put a feature section in `components/organisms/`.
-- Put a page layout shell in `components/templates/`.
+- Put a leaf UI control in `components/core/`.
+- Put a small composed control in `components/patterns/`.
+- Put a feature section in `components/containers/`.
+- Put a page layout shell in `components/layouts/`.
 
 **Move a component when reuse changes.**
 
@@ -61,8 +62,8 @@ Put each shared component in its own folder. Use these files:
 Export the component from `index.tsx`. Import styles from `index.module.css`.
 Keep types in `index.types.ts`.
 
-Add a barrel export file `index.ts` in each layer folder (`atoms/`,
-`molecules/`, `organisms/`, `templates/`). Re-export the public components from
+Add a barrel export file `index.ts` in each layer folder (`core/`,
+`patterns/`, `containers/`, `layouts/`). Re-export the public components from
 that file.
 
 ---
@@ -72,7 +73,7 @@ that file.
 | Folder or file | Purpose |
 | -------------- | ------- |
 | `assets/` | Static files: images, icons, fonts, audio, JSON. |
-| `components/` | Shared UI by atomic layer. |
+| `components/` | Shared UI by role-based layer. |
 | `constants/` | App-wide constant values. |
 | `pages/` | Route pages. Each page may own local components. |
 | `contexts/` | React context providers and related types. |
@@ -99,14 +100,14 @@ folder.
 
 Use barrel exports for:
 
-- Each atomic layer (`components/atoms/index.ts`, and the same for molecules,
-  organisms, templates).
+- Each component layer (`components/core/index.ts`, and the same for patterns,
+  containers, layouts).
 - `hooks/`, `constants/`, `types/`, `utils/`, and similar shared folders.
 
 Import from the barrel when the path is stable:
 
 ```ts
-import { Button, Input } from "@/components/atoms";
+import { Button, Input } from "@/components/core";
 ```
 
 **Caution:** Avoid circular imports through barrels. Prefer a direct file path
@@ -133,12 +134,12 @@ Use one name for one concept. Do not invent synonyms for the same folder role.
 
 ## 6. Quick checklist
 
-**Atomic level**
+**Component layer**
 
-- [ ] Is this a leaf control? Put it in `atoms/`.
-- [ ] Is this a small group of atoms? Put it in `molecules/`.
-- [ ] Is this a large feature block? Put it in `organisms/`.
-- [ ] Is this a page layout shell? Put it in `templates/`.
+- [ ] Is this a leaf control? Put it in `core/`.
+- [ ] Is this a small group of core units? Put it in `patterns/`.
+- [ ] Is this a large feature block? Put it in `containers/`.
+- [ ] Is this a page layout shell? Put it in `layouts/`.
 
 **Shared vs page-local**
 

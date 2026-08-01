@@ -1,23 +1,24 @@
 # TypeScript Project Structure (Skill)
 
-Agent skill for a **React + TypeScript** folder layout with **atomic design**.
+Agent skill for a **React + TypeScript** folder layout with **role-based
+component layers**.
 
 Use this skill when you create or review project structure. Use it when you
-place components in atoms, molecules, organisms, or templates. Use it when you
+place components in core, patterns, containers, or layouts. Use it when you
 choose a home for pages, hooks, contexts, services, and related files.
 
 ## When to use
 
 - **Create or review** a React + TypeScript folder tree.
-- **Keywords**: atomic design, atoms, molecules, organisms, templates,
+- **Keywords**: component layers, core, patterns, containers, layouts,
   folder-per-component, CSS Modules, barrel export, pages, hooks, contexts,
   services, stores.
-- **Decisions**: which atomic layer fits a component; shared vs page-local UI;
+- **Decisions**: which layer fits a component; shared vs page-local UI;
   where constants, types, utils, styles, assets, and i18n belong.
 
 ## What this skill covers
 
-- **Atomic layers** — atom, molecule, organism, template.
+- **Role-based layers** — core, pattern, container, layout.
 - **Folder-per-component** — `index.tsx`, `index.module.css`, `index.types.ts`.
 - **Top-level `src/` folders** — assets, components, constants, pages,
   contexts, hooks, routes, services, stores, utils, styles, types, i18n.
@@ -29,7 +30,7 @@ choose a home for pages, hooks, contexts, services, and related files.
 |------|--------|
 | [SKILL.md](SKILL.md) | Skill definition: rules, checklist, links (agent use) |
 | [reference.md](reference.md) | Full `src/` tree, folder tables, naming rules |
-| [examples.md](examples.md) | Code snippets for atoms, molecules, pages, hooks, services |
+| [examples.md](examples.md) | Code snippets for core, patterns, pages, hooks, services |
 
 ## See also
 

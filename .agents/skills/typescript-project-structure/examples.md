@@ -5,9 +5,9 @@ for rules. See [reference.md](reference.md) for trees and tables.
 
 ---
 
-## Example 1: Atom — `Button`
+## Example 1: Core — `Button`
 
-Folder: `src/components/atoms/Button/`
+Folder: `src/components/core/Button/`
 
 **`index.types.ts`**
 
@@ -68,14 +68,14 @@ export function Button({
 }
 ```
 
-**Tie-back:** An atom is a leaf control. Keep types and CSS Modules in the same
-folder.
+**Tie-back:** A core unit is a leaf control. Keep types and CSS Modules in the
+same folder.
 
 ---
 
-## Example 2: Molecule — `FormField`
+## Example 2: Pattern — `FormField`
 
-Folder: `src/components/molecules/FormField/`
+Folder: `src/components/patterns/FormField/`
 
 **`index.types.ts`**
 
@@ -107,7 +107,7 @@ export interface FormFieldProps {
 **`index.tsx`**
 
 ```tsx
-import { Input } from "@/components/atoms";
+import { Input } from "@/components/core";
 import styles from "./index.module.css";
 import type { FormFieldProps } from "./index.types";
 
@@ -132,14 +132,14 @@ export function FormField({
 }
 ```
 
-**Tie-back:** A molecule groups atoms for one job. Import atoms from the atoms
-barrel.
+**Tie-back:** A pattern groups core units for one job. Import core units from
+the core barrel.
 
 ---
 
 ## Example 3: Barrel export and call site
 
-**`src/components/atoms/index.ts`**
+**`src/components/core/index.ts`**
 
 ```ts
 export { Button } from "./Button";
@@ -149,7 +149,7 @@ export { Input } from "./Input";
 **Call site**
 
 ```ts
-import { Button, Input } from "@/components/atoms";
+import { Button, Input } from "@/components/core";
 ```
 
 **Tie-back:** Export only the public API from the layer barrel. Import from the
@@ -197,7 +197,7 @@ export function HeroSection({ title, subtitle }: HeroSectionProps) {
 **`index.tsx`**
 
 ```tsx
-import { MainLayout } from "@/components/templates";
+import { MainLayout } from "@/components/layouts";
 import { HeroSection } from "./components/HeroSection";
 
 export function HomePage() {
@@ -212,8 +212,8 @@ export function HomePage() {
 }
 ```
 
-**Tie-back:** Keep page-only UI under the page. Use a shared template for the
-layout shell.
+**Tie-back:** Keep page-only UI under the page. Use a shared layout for the
+shell.
 
 ---
 
