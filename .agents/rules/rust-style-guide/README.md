@@ -6,13 +6,15 @@ A Cursor rule pack that enforces consistent Rust formatting and style (line leng
 
 | File | Purpose |
 |------|--------|
-| **rust-style-guide.mdc** | Main style rule — formatting, comments, naming, API guidelines. Copy into `.cursor/rules/`. |
-| **rust-style-documentation.mdc** | Documentation rule — first sentence, module docs, canonical sections, `#[doc(inline)]`. Copy into `.cursor/rules/`. |
+| **rust-style-guide.mdc** | Main style rule — formatting, comments, naming, API guidelines. Copy into `.agents/rules/` (or `.cursor/rules/`). |
+| **rust-style-documentation.mdc** | Documentation rule — first sentence, module docs, canonical sections, `#[doc(inline)]`. Copy into `.agents/rules/` (or `.cursor/rules/`). |
 | **reference.md** | Links to official style guides and checklists (Rust, API guidelines, Microsoft, rustfmt). |
 
 ## Usage
 
-1. Copy this folder into your project, or copy the `.mdc` rule file(s) you need into `.cursor/rules/`.
+1. Copy this folder into your project’s `.agents/rules/` (and symlink
+   `.cursor/rules` → `.agents/rules`), or copy the `.mdc` file(s) you need
+   directly into `.cursor/rules/`.
 2. **rust-style-guide.mdc** and **rust-style-documentation.mdc** both apply when editing `**/*.rs` (and are set to always apply in their frontmatter).
 3. For full context, the rules reference **reference.md**; keep that file next to the rules or adjust paths in the rules if needed.
 

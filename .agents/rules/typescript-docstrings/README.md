@@ -24,4 +24,7 @@ Cursor rule for complete JSDoc and inline comments in TypeScript/TSX, assuming d
 
 ## How to use
 
-Copy this folder into your project’s `.cursor/rules/` (or your rules directory) so the `.mdc` rule is loaded. Enable when writing or reviewing TypeScript/TSX documentation.
+Copy this folder into your project’s `.agents/rules/` (and symlink
+`.cursor/rules` → `.agents/rules`), or copy it directly into `.cursor/rules/`,
+so the `.mdc` rule is loaded. Enable when writing or reviewing TypeScript/TSX
+documentation.

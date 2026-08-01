@@ -1,15 +1,13 @@
-# Cursor Skills
+# Agent Skills
 
-A collection of reusable [Cursor](https://cursor.com) agent skills for domain
-knowledge and specialized guidance. Canonical location in this workspace:
-`.agents/skills/`. Cursor discovers them via `.cursor/skills` →
-`.agents/skills`.
+A collection of reusable agent skills for domain knowledge and specialized
+guidance. Canonical location in this workspace: `.agents/skills/`.
 
 ## What’s in this directory
 
 Each subfolder is a self-contained skill with:
 
-- **`SKILL.md`** – the skill Cursor uses (name, description, when to use, and
+- **`SKILL.md`** – the skill the agent uses (name, description, when to use, and
   domain content).
 - **`README.md`** – (optional) human-facing overview of the skill and how to use
   it.
@@ -25,13 +23,12 @@ Each subfolder is a self-contained skill with:
 | [howde-algorithm](./howde-algorithm/) | HoWDe (Home and Work location Detection): detect home/work from stop sequences in Python or Rust, parameter tuning, mobility preprocessing. |
 | [polars-rust](./polars-rust/) | Polars (Rust) performance best practices: lazy API, expression-based queries, Cargo features, allocators, tuning for production. |
 | [solid-rust](./solid-rust/) | SOLID design principles in Rust: traits as interfaces, SRP/OCP/LSP/ISP/DIP, module boundaries, generics vs `dyn Trait`, dependency injection, refactoring for testability. |
-| [typescript-project-structure](./typescript-project-structure/) | React + TypeScript project structure with atomic design: atoms, molecules, organisms, templates, folder-per-component (CSS Modules), pages, hooks, contexts, services, stores, barrel exports, naming rules. |
+| [typescript-project-structure](./typescript-project-structure/) | React + TypeScript project structure with role-based component layers: core, patterns, containers, layouts, folder-per-component (CSS Modules), pages, hooks, contexts, services, stores, barrel exports, naming rules. |
 
 ## How to use
 
-- **In this workspace**: Skills live under `.agents/skills/` and are linked at
-  `.cursor/skills`. The agent uses `SKILL.md` when the description matches the
-  user’s task.
+- **In this workspace**: Skills live under `.agents/skills/`. The agent uses
+  `SKILL.md` when the description matches the user’s task.
 - **As reference**: Open a skill’s `README.md` or `reference.md` for scope and
   details.
 - **Per skill**: See each skill’s `README.md` for when it applies and what it

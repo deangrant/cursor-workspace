@@ -11,7 +11,7 @@ enforce.
 
 | File | Purpose |
 |------|--------|
-| **[ultracite-code-standard.mdc](./ultracite-code-standard.mdc)** | Main rule — principles and conventions that complement Biome’s autofixes. Copy into `.cursor/rules/`. |
+| **[ultracite-code-standard.mdc](./ultracite-code-standard.mdc)** | Main rule — principles and conventions that complement Biome’s autofixes. Copy into `.agents/rules/` (or `.cursor/rules/`). |
 
 ## When it applies
 
@@ -62,9 +62,10 @@ Summarized from the `.mdc` (see the file for full wording):
 
 ## How to use
 
-1. Copy this folder into your project, or copy
-   [ultracite-code-standard.mdc](./ultracite-code-standard.mdc) into
-   `.cursor/rules/` (or your Cursor rules directory).
+1. Copy this folder into your project’s `.agents/rules/` (and symlink
+   `.cursor/rules` → `.agents/rules`), or copy
+   [ultracite-code-standard.mdc](./ultracite-code-standard.mdc) directly into
+   `.cursor/rules/`.
 2. **Install and configure Ultracite/Biome in the repo** if you want local `npx
    ultracite` commands to match the rule; the rule describes conventions, not
    your `package.json`.

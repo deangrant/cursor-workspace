@@ -1,6 +1,6 @@
 # Google Go Style Guide
 
-Cursor rules for [Go Style at Google](https://google.github.io/styleguide/go/index): the Style Guide, Style Decisions, and Best Practices.
+Agent rules for [Go Style at Google](https://google.github.io/styleguide/go/index): the Style Guide, Style Decisions, and Best Practices.
 
 ## Rules in this folder
 
@@ -33,4 +33,8 @@ Cursor rules for [Go Style at Google](https://google.github.io/styleguide/go/ind
 
 ## Usage
 
-Copy this folder into your project’s rules directory (e.g. `.cursor/rules/`). Enable **google-go-style.mdc** for the overview and principles; enable **guide.mdc**, **style-decisions.mdc**, and **best-practices.mdc** for full coverage.
+Copy this folder into your project’s `.agents/rules/` (and symlink
+`.cursor/rules` → `.agents/rules`), or copy it directly into `.cursor/rules/`.
+Enable **google-go-style.mdc** for the overview and principles; enable
+**guide.mdc**, **style-decisions.mdc**, and **best-practices.mdc** for full
+coverage.

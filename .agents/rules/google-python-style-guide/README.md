@@ -1,6 +1,10 @@
 # Google Python Style Guide – Cursor Rule
 
-This folder contains a [Cursor rule](.cursorrules) that instructs the AI to follow the [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html) when editing Python in this project.
+This folder contains an agent rule
+([google-python-style-guide.mdc](./google-python-style-guide.mdc)) that
+instructs the AI to follow the
+[Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
+when editing Python in this project.
 
 ## When it applies
 

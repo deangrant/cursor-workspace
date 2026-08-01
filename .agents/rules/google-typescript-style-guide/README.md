@@ -1,6 +1,10 @@
 # Google TypeScript Style Guide – Cursor Rule
 
-This folder contains a [Cursor rule](.cursorrules) that instructs the AI to follow the [Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html) when editing TypeScript or TSX in this project.
+This folder contains an agent rule
+([google-typescript-style-guide.mdc](./google-typescript-style-guide.mdc)) that
+instructs the AI to follow the
+[Google TypeScript Style Guide](https://google.github.io/styleguide/tsguide.html)
+when editing TypeScript or TSX in this project.
 
 ## When it applies
 

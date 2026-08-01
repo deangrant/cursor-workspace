@@ -20,4 +20,7 @@ Framework-agnostic guidance for implementing **wide events** (canonical log line
 
 ## Usage
 
-Copy this folder into your project (e.g. `.cursor/rules/` or `rules/`) and enable the rule. No glob is set so you can scope it in Cursor to the files or areas where you implement logging.
+Copy this folder into your project’s `.agents/rules/` (and symlink
+`.cursor/rules` → `.agents/rules`), or copy it directly into `.cursor/rules/`,
+and enable the rule. No glob is set so you can scope it in Cursor to the files
+or areas where you implement logging.

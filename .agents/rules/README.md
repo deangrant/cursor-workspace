@@ -1,14 +1,14 @@
-# Cursor Rules
+# Agent Rules
 
-A collection of reusable [Cursor](https://cursor.com) rules for consistent
-AI-assisted coding across projects. In this workspace they live under
-`.cursor/rules/`.
+A collection of reusable rules for consistent AI-assisted coding across
+projects. In this workspace they live under `.agents/rules/` and are exposed to
+Cursor via `.cursor/rules` → `../.agents/rules`.
 
 ## What’s in this directory
 
 Each subfolder is a self-contained rule pack with:
 
-- **Rule file (`.mdc`)** – the rule Cursor uses (formatting, style,
+- **Rule file (`.mdc`)** – the rule the agent uses (formatting, style,
   conventions).
 - **`README.md`** – what the rule does and when it applies.
 
@@ -26,16 +26,17 @@ Each subfolder is a self-contained rule pack with:
 
 ## How to use
 
-- **In this workspace**: Packs already live under `.cursor/rules/`; enable the
-  `.mdc` rule(s) you need in Cursor.
+- **In this workspace**: Packs live under `.agents/rules/` and are linked at
+  `.cursor/rules`. Enable the `.mdc` rule(s) you need in the agent.
 - **In another project**: Copy the rule folder into that project’s
-  `.cursor/rules/` and enable it in Cursor.
+  `.agents/rules/` and symlink `.cursor/rules` → `.agents/rules`, or copy
+  directly into `.cursor/rules/` if you are not using the hoist layout.
 - **As reference**: Open a pack’s `README.md` or `.mdc` for scope and details.
 - **Per rule**: See the rule’s own `README.md` for scope (e.g. file globs) and
   details.
 
 ## Adding rules
 
-Add new rule packs as subfolders under `.cursor/rules/`: put a rule file
+Add new rule packs as subfolders under `.agents/rules/`: put a rule file
 (`.mdc`) and an optional `README.md` in each folder, then add an entry to the
 **Available rules** table above.
