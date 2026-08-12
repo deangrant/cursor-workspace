@@ -8,4 +8,4 @@
 
 ## Sources
 
-- Stripe-style Idempotency-Key patterns; apiguide.dev idempotency
+- Stripe-style Idempotency-Key patterns

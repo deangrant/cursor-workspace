@@ -1,0 +1,15 @@
+---
+description: GraphQL schema conventions — nullability, connections, domain layer auth
+globs: "**/*"
+alwaysApply: false
+---
+
+# GraphQL Conventions
+
+- Model a **domain graph**, not DB tables; evolve **additively** (deprecate before break).
+- Default fields **nullable**; use `!` only when null is unacceptable.
+- Paginate growing lists with **Relay connections** + opaque cursors; cap `first`.
+- Cacheable entities: stable global `id`, prefer `Node` + `node(id:)`.
+- Authn in HTTP middleware; authz in **business layer** (resolvers delegate).
+- Partial field failures: `data` + `errors`, typically **2xx** when `data` present.
+- Do not put core business rules only in GraphQL resolvers.

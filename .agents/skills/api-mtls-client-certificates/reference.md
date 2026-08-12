@@ -8,4 +8,4 @@
 
 ## Sources
 
-- RFC 8705; apiguide.dev mTLS
+- RFC 8705

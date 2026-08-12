@@ -13,4 +13,4 @@ for single first-party clients.
 
 ## Sources
 
-- apiguide.dev HATEOAS; HAL; JSON:API
+- HAL; JSON:API

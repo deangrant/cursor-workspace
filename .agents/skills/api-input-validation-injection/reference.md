@@ -8,4 +8,4 @@
 
 ## Sources
 
-- OWASP; NIST; apiguide.dev input validation
+- OWASP; NIST

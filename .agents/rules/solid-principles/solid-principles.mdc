@@ -1,0 +1,17 @@
+---
+description: Language-agnostic SOLID design constraints for maintainable code
+globs: "**/*"
+alwaysApply: false
+---
+
+# SOLID Principles
+
+Apply when change is expensive due to coupling. Skip for throwaway scripts or forever-single implementations.
+
+- **SRP:** one reason to change; split validation/persistence/notification; fat test classes signal violation.
+- **OCP:** grow via new types/strategies, not endless if/switch edits to one method.
+- **LSP:** subtypes must honor the contract; decorators/caches preserve observable behavior.
+- **ISP:** prefer narrow interfaces clients actually use; no fat “god” ports.
+- **DIP:** depend on abstractions at boundaries; inject collaborators; domain does not import frameworks.
+
+Ask “what is the second implementation?” (test fake counts). Prefer extract over premature abstraction.

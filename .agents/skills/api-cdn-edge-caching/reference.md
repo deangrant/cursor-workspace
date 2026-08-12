@@ -5,7 +5,3 @@
 - Caching 200 error bodies
 - Vary: Authorization on public CDN
 - Forgetting query-string variants (fields, include)
-
-## Sources
-
-- apiguide.dev CDN and edge caching

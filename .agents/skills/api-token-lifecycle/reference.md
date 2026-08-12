@@ -7,7 +7,3 @@
 | 7009 | Revocation |
 | 7662 | Introspection |
 | DPoP | Proof-of-possession |
-
-## Sources
-
-- apiguide.dev token lifecycle

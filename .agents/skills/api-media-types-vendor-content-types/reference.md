@@ -17,4 +17,4 @@
 
 ## Sources
 
-- RFC 6838; apiguide.dev media types
+- RFC 6838

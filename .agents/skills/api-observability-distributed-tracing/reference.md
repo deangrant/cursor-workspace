@@ -9,4 +9,4 @@
 
 ## Sources
 
-- W3C Trace Context; OpenTelemetry; apiguide.dev observability
+- W3C Trace Context; OpenTelemetry

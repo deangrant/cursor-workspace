@@ -11,4 +11,4 @@
 
 ## Sources
 
-- apiguide.dev timestamps and data formats; RFC 3339
+- RFC 3339

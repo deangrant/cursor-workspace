@@ -8,4 +8,4 @@
 
 ## Sources
 
-- RFC 9421; RFC 9530; apiguide.dev request signing
+- RFC 9421; RFC 9530

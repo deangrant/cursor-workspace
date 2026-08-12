@@ -1,0 +1,15 @@
+---
+description: GraphQL security baseline — TLS, demand control, introspection off, field auth
+globs: "**/*"
+alwaysApply: false
+---
+
+# GraphQL Security Baseline
+
+- HTTPS/TLS; request timeouts; private caching for sensitive responses.
+- First-party apps: **trusted document allowlist** in production when possible.
+- Else enforce **depth, breadth/alias, complexity, and max `first`** limits + rate limits.
+- Disable **introspection** in production (first-party); mask validation hints and stacks.
+- Authn in middleware → `context.user`; **field-level authz** in business layer.
+- Sanitize inputs in domain code; never rely on obscurity alone.
+- Test alias/introspection bypass paths for hidden fields.

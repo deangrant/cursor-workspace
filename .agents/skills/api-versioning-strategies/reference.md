@@ -9,4 +9,4 @@
 
 ## Sources
 
-- apiguide.dev versioning; Redocly / Speakeasy evolution guidance
+- Redocly / Speakeasy evolution guidance

@@ -8,4 +8,4 @@
 
 ## Sources
 
-- apiguide.dev health checks; Kubernetes probe semantics
+- Kubernetes probe semantics

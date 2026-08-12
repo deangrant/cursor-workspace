@@ -13,4 +13,4 @@
 
 ## Sources
 
-- Fetch CORS; apiguide.dev CORS
+- Fetch CORS

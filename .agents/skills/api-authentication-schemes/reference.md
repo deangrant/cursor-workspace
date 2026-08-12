@@ -8,4 +8,4 @@
 
 ## Sources
 
-- RFC 6750, 7617, 9421; apiguide.dev authentication
+- RFC 6750, 7617, 9421

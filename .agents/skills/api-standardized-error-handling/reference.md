@@ -22,4 +22,3 @@ Per-item errors live in `results[]` — top-level status alone is not enough
 ## Sources
 
 - RFC 9457 Problem Details for HTTP APIs
-- apiguide.dev error handling guide

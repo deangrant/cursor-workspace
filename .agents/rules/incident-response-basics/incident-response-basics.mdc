@@ -1,0 +1,15 @@
+---
+description: Incident response basics — prepare, identify, contain, eradicate, recover, lessons
+globs: "**/*"
+alwaysApply: false
+---
+
+# Incident Response Basics
+
+- **Prepare:** contact tree, journals/toolkits, regular drills.
+- **Identify:** where/who/how/when; scope (tech + business); notify CIRT; assign primary + evidence handler.
+- **Contain:** short-term stop bleed; long-term prevent spread; preserve evidence.
+- **Eradicate:** remove cause; patch; hunt persistence.
+- **Recover:** restore from known-good; monitor; phased return.
+- **Lessons learned:** timeline, gaps, action items — within days of close.
+- Do not destroy volatile evidence before capture; communicate via documented channels.

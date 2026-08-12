@@ -13,4 +13,4 @@
 
 ## Sources
 
-- OWASP API Top 10; apiguide.dev authorization
+- OWASP API Top 10

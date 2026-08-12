@@ -17,4 +17,4 @@
 
 ## Sources
 
-- RFC 6902, RFC 7386; apiguide.dev patch strategies
+- RFC 6902, RFC 7386

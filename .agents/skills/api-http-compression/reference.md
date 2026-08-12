@@ -7,7 +7,3 @@
 | br | Preferred modern |
 | gzip | Ubiquitous fallback |
 | zstd | Emerging |
-
-## Sources
-
-- apiguide.dev HTTP compression

@@ -11,7 +11,3 @@
 - Silent all-or-nothing without documentation
 - Unordered results that cannot map to inputs
 - Inlining huge result sets in sync responses (prefer async job)
-
-## Sources
-
-- apiguide.dev bulk and batch operations

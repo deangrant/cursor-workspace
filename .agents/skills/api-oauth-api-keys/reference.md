@@ -8,4 +8,4 @@
 
 ## Sources
 
-- OAuth 2.1 / 2.0 RFCs; apiguide.dev OAuth & API keys
+- OAuth 2.1 / 2.0 RFCs

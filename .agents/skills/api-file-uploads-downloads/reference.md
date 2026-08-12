@@ -16,4 +16,4 @@
 
 ## Sources
 
-- apiguide.dev file uploads/downloads; RFC 7578 multipart; RFC 9110
+- RFC 7578 multipart; RFC 9110

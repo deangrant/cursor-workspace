@@ -1,0 +1,15 @@
+---
+description: npm supply-chain hygiene — lockfiles, pin deps, audit, avoid install scripts abuse
+globs: "**/package.json,**/package-lock.json,**/pnpm-lock.yaml,**/yarn.lock"
+alwaysApply: false
+---
+
+# npm Supply-Chain Hardening
+
+- Commit and use lockfiles; install with frozen lockfile in CI.
+- Prefer pinned/exact versions for security-sensitive deps; review sudden major bumps.
+- Run `npm audit` / equivalent; triage high/critical before merge.
+- Avoid unnecessary lifecycle scripts; be wary of new packages with postinstall exfil patterns.
+- Minimize dependency surface; prefer well-maintained packages with clear ownership.
+- Do not commit `.npmrc` tokens; use CI secrets / `NODE_AUTH_TOKEN` injection.
+- After adding deps, skim publish time, maintainer changes, and download anomalies for brand-new packages.

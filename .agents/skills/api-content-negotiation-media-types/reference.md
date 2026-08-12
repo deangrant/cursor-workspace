@@ -13,4 +13,4 @@
 
 ## Sources
 
-- RFC 9110 §12; apiguide.dev content negotiation
+- RFC 9110 §12

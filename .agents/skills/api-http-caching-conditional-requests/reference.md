@@ -8,4 +8,4 @@
 
 ## Sources
 
-- RFC 9111; apiguide.dev HTTP caching
+- RFC 9111

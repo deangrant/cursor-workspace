@@ -15,4 +15,4 @@
 
 ## Sources
 
-- apiguide.dev sparse fieldsets; JSON:API sparse fieldsets
+- JSON:API sparse fieldsets

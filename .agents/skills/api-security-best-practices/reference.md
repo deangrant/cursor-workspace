@@ -7,4 +7,4 @@ BFLA, SSRF, security misconfig, injection, inventory, unsafe consumption.
 
 ## Sources
 
-- OWASP API Security; apiguide.dev security best practices
+- OWASP API Security

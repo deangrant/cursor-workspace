@@ -16,4 +16,4 @@
 
 ## Sources
 
-- RFC 8594, RFC 9745; apiguide.dev deprecation
+- RFC 8594, RFC 9745

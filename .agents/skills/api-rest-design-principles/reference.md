@@ -46,6 +46,5 @@ HTTP samples.
 
 ## Sources
 
-- apiguide.dev REST principles
 - Fielding REST dissertation; RFC 9110 HTTP semantics
 - Richardson Maturity Model (QCon 2008)

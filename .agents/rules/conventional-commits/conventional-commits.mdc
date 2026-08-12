@@ -1,0 +1,14 @@
+---
+description: Conventional Commits message shape — type(scope): description
+globs: "**/*"
+alwaysApply: false
+---
+
+# Conventional Commits
+
+- Format: `type(optional-scope): description`
+- Common types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+- Description: imperative, lowercase, no trailing period; ≤72 chars subject preferred
+- Body/footer optional; breaking changes marked `BREAKING CHANGE:` in footer or `!` after type/scope
+- One logical change per commit when practical
+- Pairs with the `git-conventional-commit` command for drafting messages from diffs

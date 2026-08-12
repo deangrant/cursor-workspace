@@ -15,4 +15,4 @@
 
 ## Sources
 
-- apiguide.dev async operations; RFC 7240 Prefer header
+- RFC 7240 Prefer header

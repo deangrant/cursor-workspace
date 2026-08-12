@@ -18,4 +18,4 @@
 
 ## Sources
 
-- apiguide.dev pagination guide; RFC 8288 Web Linking
+- RFC 8288 Web Linking

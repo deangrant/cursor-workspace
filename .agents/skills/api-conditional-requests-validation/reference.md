@@ -8,4 +8,4 @@
 
 ## Sources
 
-- RFC 9110 preconditions; apiguide.dev conditional requests
+- RFC 9110 preconditions
