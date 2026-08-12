@@ -1,0 +1,15 @@
+---
+description: REST API conventions for URIs, verbs, status codes, and response consistency
+globs: "**/*"
+alwaysApply: false
+---
+
+# REST API Conventions
+
+When designing or editing HTTP APIs:
+
+- **URIs:** nouns, plural collections, kebab-case, ≤2 nesting levels; path = identity; query = filter/sort/page.
+- **Verbs:** GET safe/idempotent; POST create/actions; PUT replace; PATCH partial (RFC media types); DELETE remove. Never mutate via GET.
+- **Status:** most specific code; `201` + `Location` on create; `202` for async; never `200` + in-body error.
+- **Envelope:** pick enveloped `data`/`meta` or bare body; apply consistently; errors use `application/problem+json`.
+- **Anti-patterns:** verb paths, POST-everything, inconsistent status codes, undocumented breaking changes.

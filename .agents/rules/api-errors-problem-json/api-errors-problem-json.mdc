@@ -1,0 +1,14 @@
+---
+description: RFC 9457 Problem Details error responses; never 200 with error body
+globs: "**/*"
+alwaysApply: false
+---
+
+# API Errors (Problem+JSON)
+
+- Default error `Content-Type: application/problem+json` (RFC 9457).
+- Include `type`, `title`, `status`, `detail`; add field `errors` on validation (`422`).
+- Match HTTP status to class: `400` syntax, `401`/`403` auth, `404` missing, `410` sunset, `409` conflict, `413` size, `415` media, `422` semantic, `503` readiness/overload.
+- **Never** return `200` with an error object or `"success": false`.
+- No stack traces, secrets, or internal IDs in production error bodies.
+- Keep the same error shape across active API versions.

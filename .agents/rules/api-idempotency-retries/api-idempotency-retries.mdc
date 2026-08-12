@@ -1,0 +1,13 @@
+---
+description: Idempotency-Key on costly POSTs; Retry-After; backoff with jitter
+globs: "**/*"
+alwaysApply: false
+---
+
+# API Idempotency and Retries
+
+- Require `Idempotency-Key` on costly/non-idempotent POSTs (payments, creates); replay stored responses on retry.
+- Same key + different body → `409`; scope keys by tenant/client; document TTL.
+- Retry only transient failures; exponential backoff **+ jitter**; honor `Retry-After` when present.
+- Always set outbound timeouts; use circuit breakers on unstable dependencies.
+- Do not generate a new idempotency key when retrying the same logical operation.

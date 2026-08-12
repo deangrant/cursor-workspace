@@ -1,0 +1,14 @@
+---
+description: API versioning and deprecation — breaking vs additive; Sunset headers; 410
+globs: "**/*"
+alwaysApply: false
+---
+
+# API Versioning and Deprecation
+
+- Prefer additive evolution; bump version only for breaking changes.
+- Pick one routing scheme (URI `/vN`, header, query, or media type) and stay consistent.
+- Clients must **pin** versions explicitly — do not rely on silent defaults.
+- Same error format across active versions (RFC 9457).
+- Deprecating: send `Deprecation` + `Sunset` + `Link` migration docs on live responses; after cutoff return **410 Gone** (not 404).
+- Publish announce → support → remove timelines; track remaining traffic.

@@ -1,0 +1,14 @@
+---
+description: Baseline API security — TLS, authn≠authz, BOLA, secrets, rate limits
+globs: "**/*"
+alwaysApply: false
+---
+
+# API Security Baseline
+
+- **Transport:** HTTPS only; HSTS; no plaintext API endpoints.
+- **Authn ≠ authz:** valid token is not enough; check object ownership/tenant (anti-BOLA) and privileged functions (anti-BFLA).
+- **Input:** server-side schema allowlists; block mass assignment; cap payload/page sizes (`413`).
+- **Abuse:** per-identity/tenant and expensive-route rate limits; `429`/`503` + `Retry-After` + `RateLimit-*`.
+- **Secrets:** never in git, client code, query strings, or logs; scrub `Authorization`.
+- **CORS:** explicit origins; never `*` with credentials.

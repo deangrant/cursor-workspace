@@ -1,0 +1,14 @@
+---
+description: API observability and health — request IDs, structured logs, live/ready split
+globs: "**/*"
+alwaysApply: false
+---
+
+# API Observability and Health
+
+- Structured JSON logs: method, path, status, duration; **no** secrets/PII.
+- Honor or generate `X-Request-Id` / correlation ID; echo in response; propagate downstream.
+- Propagate W3C `traceparent`/`tracestate`; prefer OpenTelemetry.
+- RED metrics (rate, errors, duration); alert on error rate and p99.
+- Split probes: `/health/live` (no deps), `/health/ready` (deps, `503` on fail), `/health/startup`.
+- Do not fail liveness on downstream blips (avoid restart storms).

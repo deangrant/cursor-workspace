@@ -1,0 +1,14 @@
+---
+description: Collection query conventions — one pagination style; deterministic sort; filter→sort→page
+globs: "**/*"
+alwaysApply: false
+---
+
+# API Pagination and Query Conventions
+
+- Always paginate large collections; enforce default + max `limit`.
+- Prefer **cursor/keyset** for large or high-write lists; offset only for small/stable/admin UIs.
+- One pagination placement: `Link` next/prev **or** `meta.pagination` — not both inconsistently.
+- One filter style (flat or `filter[field]`); whitelist sort/filter fields; `400` on unknown operators.
+- Deterministic sort with tie-breaker (`id`); processing order **filter → sort → paginate**.
+- Separate full-text `q` from structured filters; complex queries → `POST /collection/search`.
