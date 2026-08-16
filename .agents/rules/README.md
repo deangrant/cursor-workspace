@@ -24,17 +24,11 @@ Each subfolder is a self-contained rule pack with:
 | [api-security-baseline](./api-security-baseline/) | TLS, authn≠authz, BOLA, secrets, rate limits. Opt-in. |
 | [api-versioning-deprecation](./api-versioning-deprecation/) | Breaking vs additive; Sunset headers; 410. Opt-in. |
 | [conventional-commits](./conventional-commits/) | `type(scope): description` commit message shape. Opt-in. |
-| [google-go-style-guide](./google-go-style-guide/) | Google Go style best practices. |
-| [google-python-style-guide](./google-python-style-guide/) | Google Python Style Guide. |
-| [google-typescript-style-guide](./google-typescript-style-guide/) | Google TypeScript Style Guide. |
 | [graphql-conventions](./graphql-conventions/) | Nullability, connections, domain-layer auth. Opt-in. |
 | [graphql-security-baseline](./graphql-security-baseline/) | Trusted docs / demand control, introspection off, field auth. Opt-in. |
 | [incident-response-basics](./incident-response-basics/) | Prepare → identify → contain → eradicate → recover → lessons. Opt-in. |
 | [npm-supply-chain-hardening](./npm-supply-chain-hardening/) | Lockfiles, pin/audit deps, install-script caution. Opt-in (package/lock globs). |
 | [rest-api-conventions](./rest-api-conventions/) | URI/verbs/status/envelope REST conventions. Opt-in. |
-| [rust-style-guide](./rust-style-guide/) | Rust formatting, docs, naming conventions. |
-| [solid-principles](./solid-principles/) | Language-agnostic SOLID constraints. Opt-in. |
-| [typescript-docstrings](./typescript-docstrings/) | JSDoc/TypeDoc-friendly documentation. |
 | [ultracite-lint-format](./ultracite-lint-format/) | Ultracite/Biome JS/TS conventions. |
 | [wide-event-logging](./wide-event-logging/) | Wide event / canonical log line logging. |
 

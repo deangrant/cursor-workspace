@@ -64,6 +64,8 @@ Each subfolder is a self-contained skill with:
 | [code-review](./code-review/) | Read-only review of a git diff or the full codebase. |
 | [deepsec-setup-ci](./deepsec-setup-ci/) | Vercel deepsec init, config, PR/CI scanning. |
 | [git-conventional-commit](./git-conventional-commit/) | Draft Conventional Commits 1.0.0 messages from diffs (no commit). |
+| [go-google-style-guide](./go-google-style-guide/) | Google Go style: guide, decisions, best practices. |
+| [go-solid-design](./go-solid-design/) | SOLID in Go with packages, small interfaces, and DI. |
 | [graphql-authorization](./graphql-authorization/) | Field-level auth via shared business layer. |
 | [graphql-client-caching](./graphql-client-caching/) | Normalized store, global IDs, Node refetch. |
 | [graphql-error-debugging](./graphql-error-debugging/) | Triage HTTP status vs data/errors body. |
@@ -77,12 +79,17 @@ Each subfolder is a self-contained skill with:
 | [idempotency-distributed-patterns](./idempotency-distributed-patterns/) | Idempotency store, outbox, consumer dedupe. |
 | [load-balancing-algorithms](./load-balancing-algorithms/) | L4/L7, RR, least-conn, consistent hash/Maglev. |
 | [observability-wide-events](./observability-wide-events/) | Wide/canonical events, tail sampling, OTel attrs. |
-| [polars-rust](./polars-rust/) | Polars (Rust) performance best practices. |
 | [postgresql-production-scale](./postgresql-production-scale/) | Replicas, PgBouncer isolation, query hygiene. |
+| [python-google-style-guide](./python-google-style-guide/) | Google Python style: language, formatting, typing. |
+| [python-solid-design](./python-solid-design/) | SOLID in Python with classes, ABCs, Protocols, and DI. |
 | [rate-limiter-algorithms](./rate-limiter-algorithms/) | Token bucket/windows, keys, Redis/Lua distribution. |
 | [redis-scaling](./redis-scaling/) | Sentinel/Cluster, hot keys, pipelining, maxmemory. |
-| [solid-rust](./solid-rust/) | SOLID in Rust with traits and DI. |
+| [rust-polars](./rust-polars/) | Polars (Rust) performance best practices. |
+| [rust-solid-design](./rust-solid-design/) | SOLID in Rust with traits and DI. |
+| [rust-style-guide](./rust-style-guide/) | Rust formatting, docs, naming, and API conventions. |
+| [typescript-jsdoc-style](./typescript-jsdoc-style/) | TypeScript JSDoc and comment conventions. |
 | [typescript-project-structure](./typescript-project-structure/) | React + TypeScript layered project structure. |
+| [typescript-solid-design](./typescript-solid-design/) | SOLID in TypeScript with interfaces, DI, and modular design. |
 | [zaproxy-api-scan-ci](./zaproxy-api-scan-ci/) | OWASP ZAP Docker baseline/full/API scans in CI. |
 
 ## How to use
