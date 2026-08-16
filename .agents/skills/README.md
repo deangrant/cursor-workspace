@@ -61,7 +61,9 @@ Each subfolder is a self-contained skill with:
 | [api-webhooks-event-driven](./api-webhooks-event-driven/) | Outbound webhook delivery/retries. |
 | [bff-pattern](./bff-pattern/) | Backend-for-Frontend adopt/skip and design. |
 | [caching-at-scale](./caching-at-scale/) | Cache-aside, stampede prevention, invalidation. |
+| [code-review](./code-review/) | Read-only review of a git diff or the full codebase. |
 | [deepsec-setup-ci](./deepsec-setup-ci/) | Vercel deepsec init, config, PR/CI scanning. |
+| [git-conventional-commit](./git-conventional-commit/) | Draft Conventional Commits 1.0.0 messages from diffs (no commit). |
 | [graphql-authorization](./graphql-authorization/) | Field-level auth via shared business layer. |
 | [graphql-client-caching](./graphql-client-caching/) | Normalized store, global IDs, Node refetch. |
 | [graphql-error-debugging](./graphql-error-debugging/) | Triage HTTP status vs data/errors body. |

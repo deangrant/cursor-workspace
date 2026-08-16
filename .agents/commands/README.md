@@ -6,20 +6,21 @@ are exposed to Cursor via `.cursor/commands` → `../.agents/commands`.
 
 ## What’s in this directory
 
-Each markdown file is a self-contained command:
+Each markdown file is a command entrypoint:
 
-- **Command file (`.md`)** – the full prompt or instructions for the agent. Use
-  in chat (e.g. @-mention or paste) or configure as a custom command so the
-  agent follows it when the command is run.
+- **Command file (`.md`)** – either a full prompt, or a thin pointer to a skill
+  under `.agents/skills/` (with any scope/mode flags). Use in chat (e.g.
+  @-mention or paste) or as a custom command so the agent follows it when the
+  command is run.
 
 ## Available commands
 
 | Command | Description |
 | ------- | ----------- |
-| [code-review-diff](./code-review-diff.md) | Run `git status` and `git diff`, then perform a read-only code review: describe correctness, security, performance, readability, testing gaps, and best-practice issues without modifying or suggesting code changes. |
-| [code-review-full](./code-review-full.md) | Explore the full project codebase (source, config, entrypoints), then perform a read-only code review: describe correctness, security, performance, readability, testing gaps, and best-practice issues without modifying or suggesting code changes. |
+| [code-review-diff](./code-review-diff.md) | Thin pointer to the `code-review` skill with scope `diff`: read-only review of `git status`/`git diff` only. |
+| [code-review-full](./code-review-full.md) | Thin pointer to the `code-review` skill with scope `full`: read-only review of the whole codebase. |
 | [coderabbit-review](./coderabbit-review.md) | Run `coderabbit review --agent`, prioritize findings into Critical / Maintainability / Style, apply fixes autonomously from Critical downward, clean up imports and types, then output a checkbox list of resolved items. |
-| [git-conventional-commit](./git-conventional-commit.md) | Run `git status` and `git diff`, then produce a single Conventional Commits 1.0.0–compliant commit message; the agent must not run `git commit` or apply the commit. |
+| [git-conventional-commit](./git-conventional-commit.md) | Thin pointer to the `git-conventional-commit` skill: draft one Conventional Commits 1.0.0 message from `git status`/`git diff`; do not run `git commit`. |
 
 ## How to use
 

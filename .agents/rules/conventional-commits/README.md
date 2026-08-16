@@ -1,6 +1,8 @@
 # Conventional Commits Rule
 
-Opt-in commit message shape. Complements `.agents/commands/git-conventional-commit.md`.
+Opt-in commit message shape. Complements
+`.agents/skills/git-conventional-commit/` (slash command
+`.agents/commands/git-conventional-commit.md` is a thin pointer to that skill).
 
 ## When to use
 
