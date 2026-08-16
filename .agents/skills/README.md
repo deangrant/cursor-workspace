@@ -87,6 +87,7 @@ Each subfolder is a self-contained skill with:
 | [rust-polars](./rust-polars/) | Polars (Rust) performance best practices. |
 | [rust-solid-design](./rust-solid-design/) | SOLID in Rust with traits and DI. |
 | [rust-style-guide](./rust-style-guide/) | Rust formatting, docs, naming, and API conventions. |
+| [technical-writing](./technical-writing/) | Senior tech writing: audience-first docs, TW One/Two craft, error UX, global/inclusive voice, CL/PR descriptions. |
 | [typescript-jsdoc-style](./typescript-jsdoc-style/) | TypeScript JSDoc and comment conventions. |
 | [typescript-project-structure](./typescript-project-structure/) | React + TypeScript layered project structure. |
 | [typescript-solid-design](./typescript-solid-design/) | SOLID in TypeScript with interfaces, DI, and modular design. |
