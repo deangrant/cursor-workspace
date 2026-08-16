@@ -11,4 +11,4 @@ alwaysApply: false
 - Description: imperative, lowercase, no trailing period; ≤72 chars subject preferred
 - Body/footer optional; breaking changes marked `BREAKING CHANGE:` in footer or `!` after type/scope
 - One logical change per commit when practical
-- Pairs with the `git-conventional-commit` command for drafting messages from diffs
+- Pairs with the `git-conventional-commit` skill (slash command is a thin pointer) for drafting messages from diffs
