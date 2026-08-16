@@ -10,7 +10,7 @@ description: >-
 trigger: >-
   React TypeScript project structure, component layers, core, patterns,
   containers, layouts, folder-per-component, CSS Modules, React folder layout,
-  pages, hooks, contexts, services, stores, barrel export, component hierarchy
+  pages, hooks, contexts, services, stores, direct imports, component hierarchy
 ---
 
 # TypeScript Project Structure (React)
@@ -26,32 +26,47 @@ many people share the code.
 
 ## 1. Role-based component layers
 
-This skill uses four UI layers:
+This skill uses four UI **roles**:
 
 | Layer | Role | Examples |
 | ----- | ---- | -------- |
 | **Core** | Smallest UI unit. No business logic. | `Button`, `Input`, `Label` |
 | **Pattern** | Small group of core units. One clear job. | `FormField`, `Card` |
-| **Container** | Large UI block. Uses core and patterns. | `Header`, `UserProfile` |
-| **Layout** | Page skeleton. Holds containers in layout slots. | `MainLayout`, `AuthLayout` |
+| **Container** | Large UI block. Uses core and patterns. | `MapView`, `SearchFilters` |
+| **Layout** | Page skeleton. Holds containers in layout slots. | `PlacesLayout`, `MainLayout` |
 
-**Put each component in the correct layer.**
+**Role is not the same as folder location.** Core and pattern are shared by
+default. Container and layout **default to the owning page** until two or more
+pages reuse them.
+
+| Role | Default location (one page) | Promote when ≥2 pages reuse |
+| ---- | --------------------------- | --------------------------- |
+| Core | `components/core/` | already shared |
+| Pattern | `components/patterns/` | already shared |
+| Container | `pages/<Page>/components/` | `components/containers/` |
+| Layout | `pages/<Page>/<LayoutName>/` | `components/layouts/` |
+
+**Put each component in the correct role and location.**
 
 - Put a leaf UI control in `components/core/`.
 - Put a small composed control in `components/patterns/`.
-- Put a feature section in `components/containers/`.
-- Put a page layout shell in `components/layouts/`.
+- Put a page-only feature section in `pages/<Page>/components/`.
+- Put a page-only layout shell in `pages/<Page>/<LayoutName>/`.
+- Only create `components/containers/` or `components/layouts/` when promoting
+  shared UI.
 
 **Move a component when reuse changes.**
 
-- Promote a page-local component to `components/` when two or more pages use it.
-- Demote a shared component to a page folder when only one page uses it.
+- Promote a page-local container or layout into `components/containers/` or
+  `components/layouts/` when two or more pages use it.
+- Demote a shared container or layout back under the page when only one page
+  still uses it.
 
 ---
 
 ## 2. Folder-per-component (default)
 
-Put each shared component in its own folder. Use these files:
+Put each component (shared or page-local) in its own folder. Use these files:
 
 | File | Purpose |
 | ---- | ------- |
@@ -62,9 +77,9 @@ Put each shared component in its own folder. Use these files:
 Export the component from `index.tsx`. Import styles from `index.module.css`.
 Keep types in `index.types.ts`.
 
-Add a barrel export file `index.ts` in each layer folder (`core/`,
-`patterns/`, `containers/`, `layouts/`). Re-export the public components from
-that file.
+Do **not** add a layer barrel (`components/core/index.ts`, and the same for
+`patterns/`, `containers/`, `layouts/`). Import each component by its folder
+path.
 
 ---
 
@@ -75,7 +90,7 @@ that file.
 | `assets/` | Static files: images, icons, fonts, audio, JSON. |
 | `components/` | Shared UI by role-based layer. |
 | `constants/` | App-wide constant values. |
-| `pages/` | Route pages. Each page may own local components. |
+| `pages/` | Route pages. Each page may own local layout and components. |
 | `contexts/` | React context providers and related types. |
 | `hooks/` | Shared custom hooks (`use[Name]`). |
 | `routes/` | Route maps and route guard components. |
@@ -85,34 +100,47 @@ that file.
 | `styles/` | Global CSS, variables, theme helpers. |
 | `types/` | Shared TypeScript types for the whole app. |
 | `i18n/` | Locale files and i18n setup. |
-| `App.tsx` | Root app component. |
+| `app.tsx` | Root app component (Biome kebab-case in this repo). |
 | `index.tsx` | App entry point. |
 
-Put page-only UI in `pages/<PageName>/components/`. Do not put that UI in
-`components/` until more than one page needs it.
+Put page-only UI in `pages/<PageName>/` (layout folder and/or `components/`).
+Do not put that UI in shared `components/` until more than one page needs it.
+
+**Do not create empty unused folders.** Only add `patterns/`, `containers/`,
+`layouts/`, `routes/`, `stores/`, or `i18n/` when the app actually needs them.
+
+**Places app today:** shared `components/` has `core/` and `patterns/` only.
+Places layout and feature blocks live under `pages/Places/` (`PlacesLayout/`,
+`components/MapView`, `PlaceDetail`, `ResultsList`, `SearchFilters`). Do not
+recreate empty `components/containers/` or `components/layouts/` for Places-only
+UI.
 
 ---
 
-## 4. Barrel exports
+## 4. Imports (no component-layer barrels)
 
-A **barrel export** is an `index.ts` that re-exports public symbols from a
-folder.
-
-Use barrel exports for:
-
-- Each component layer (`components/core/index.ts`, and the same for patterns,
-  containers, layouts).
-- `hooks/`, `constants/`, `types/`, `utils/`, and similar shared folders.
-
-Import from the barrel when the path is stable:
+Import shared components by **direct module path**. Do not create or use layer
+barrels under `components/`.
 
 ```ts
-import { Button, Input } from "@/components/core";
+import { Button } from "@/components/core/Button";
+import { Input } from "@/components/core/Input";
 ```
 
-**Caution:** Avoid circular imports through barrels. Prefer a direct file path
-when a barrel causes a cycle. Prefer direct imports when tree-shaking fails for
-a large barrel.
+Import page-local layout and containers from the page tree:
+
+```ts
+import { PlacesLayout } from "@/pages/Places/PlacesLayout";
+import { MapView } from "@/pages/Places/components/MapView";
+```
+
+**Why:** Biome `noBarrelFile` and React Doctor `no-barrel-import` reject
+component-layer re-export files. Direct paths keep tree-shaking reliable and
+avoid circular imports through barrels.
+
+Optional barrels for non-component folders (`hooks/`, `constants/`, `types/`,
+`utils/`) are allowed only when they do not trip lint and do not create cycles.
+Prefer direct paths there too when in doubt.
 
 ---
 
@@ -125,8 +153,8 @@ a large barrel.
 | Hook file | `use` + PascalCase remainder (`useAuth.ts`). |
 | Constant file | Domain + `.constants.ts` (`api.constants.ts`). |
 | Type file (shared) | Domain + `.types.ts` (`api.types.ts`). |
-| Service file | Domain + `Service.ts` (`userService.ts`). |
-| Store file | Domain + `Store.ts` (`userStore.ts`). |
+| Service file | In this repo, Biome kebab-case: `*-service.ts` (e.g. `place-search-service.ts`). |
+| Store file | Prefer Biome kebab-case when added (`*-store.ts`). |
 
 Use one name for one concept. Do not invent synonyms for the same folder role.
 
@@ -136,22 +164,23 @@ Use one name for one concept. Do not invent synonyms for the same folder role.
 
 **Component layer**
 
-- [ ] Is this a leaf control? Put it in `core/`.
-- [ ] Is this a small group of core units? Put it in `patterns/`.
-- [ ] Is this a large feature block? Put it in `containers/`.
-- [ ] Is this a page layout shell? Put it in `layouts/`.
+- [ ] Is this a leaf control? Put it in `components/core/`.
+- [ ] Is this a small group of core units? Put it in `components/patterns/`.
+- [ ] Is this a large feature block used by one page? Put it in `pages/<Page>/components/`.
+- [ ] Is this a page layout shell used by one page? Put it in `pages/<Page>/<LayoutName>/`.
+- [ ] Is this container/layout reused by two or more pages? Promote to `components/containers/` or `components/layouts/`.
 
 **Shared vs page-local**
 
 - [ ] Does only one page use this UI? Keep it under that page.
-- [ ] Do two or more pages use this UI? Move it to `components/`.
+- [ ] Do two or more pages use this UI? Move it to `components/` at the right layer.
 
 **Folder-per-component**
 
 - [ ] Does the folder have `index.tsx`?
 - [ ] Does the folder have `index.module.css` when styles are needed?
 - [ ] Does the folder have `index.types.ts` when props or local types exist?
-- [ ] Does the layer barrel export the public component?
+- [ ] Are call sites importing this component by direct path (no layer barrel)?
 
 **Cross-cutting code**
 

@@ -107,7 +107,7 @@ export interface FormFieldProps {
 **`index.tsx`**
 
 ```tsx
-import { Input } from "@/components/core";
+import { Input } from "@/components/core/Input";
 import styles from "./index.module.css";
 import type { FormFieldProps } from "./index.types";
 
@@ -132,34 +132,43 @@ export function FormField({
 }
 ```
 
-**Tie-back:** A pattern groups core units for one job. Import core units from
-the core barrel.
+**Tie-back:** A pattern groups core units for one job. Import core units by
+direct component path.
 
 ---
 
-## Example 3: Barrel export and call site
-
-**`src/components/core/index.ts`**
-
-```ts
-export { Button } from "./Button";
-export { Input } from "./Input";
-```
+## Example 3: Direct component imports
 
 **Call site**
 
 ```ts
-import { Button, Input } from "@/components/core";
+import { Button } from "@/components/core/Button";
+import { Input } from "@/components/core/Input";
 ```
 
-**Tie-back:** Export only the public API from the layer barrel. Import from the
-barrel at stable call sites.
+**Tie-back:** Do not add `components/core/index.ts` (or other layer barrels).
+Import each public component from its folder.
 
 ---
 
-## Example 4: Page with local component
+## Example 4: Page with local layout and component
 
-Folder: `src/pages/Home/`
+**Places default (page-local layout):**
+
+```tsx
+import { PlacesLayout } from "@/pages/Places/PlacesLayout";
+import { MapView } from "@/pages/Places/components/MapView";
+
+export function PlacesPage() {
+  return (
+    <PlacesLayout>
+      <MapView /* … */ />
+    </PlacesLayout>
+  );
+}
+```
+
+Folder: `src/pages/Home/` (generic page-local component)
 
 **`components/HeroSection/index.types.ts`**
 
@@ -194,10 +203,28 @@ export function HeroSection({ title, subtitle }: HeroSectionProps) {
 }
 ```
 
-**`index.tsx`**
+**`index.tsx` (page-local layout still on the page)**
 
 ```tsx
-import { MainLayout } from "@/components/layouts";
+import { HomeLayout } from "@/pages/Home/HomeLayout";
+import { HeroSection } from "./components/HeroSection";
+
+export function HomePage() {
+  return (
+    <HomeLayout>
+      <HeroSection
+        title="Welcome"
+        subtitle="Build clear React + TypeScript apps."
+      />
+    </HomeLayout>
+  );
+}
+```
+
+**After promotion (layout shared by ≥2 pages):**
+
+```tsx
+import { MainLayout } from "@/components/layouts/MainLayout";
 import { HeroSection } from "./components/HeroSection";
 
 export function HomePage() {
@@ -212,8 +239,9 @@ export function HomePage() {
 }
 ```
 
-**Tie-back:** Keep page-only UI under the page. Use a shared layout for the
-shell.
+**Tie-back:** Keep page-only layout and containers under the page. Promote to
+`components/layouts/` or `components/containers/` only when a second page
+reuses them.
 
 ---
 
@@ -243,7 +271,7 @@ export interface UserDto {
 }
 ```
 
-**`src/services/api/userService.ts`**
+**`src/services/places/place-search-service.ts`**
 
 ```ts
 import type { UserDto } from "./api.types";
@@ -258,6 +286,7 @@ export async function fetchUser(id: string): Promise<UserDto> {
 ```
 
 **Tie-back:** Put shared React logic in `hooks/`. Put HTTP calls in `services/`.
+In this repo, prefer Biome kebab-case service filenames (`*-service.ts`).
 Keep response types next to the service or in `types/` when many modules share
 them.
 
